@@ -1,4 +1,6 @@
 ﻿using System;
+using TeaBL;
+using TeaLib;
 
 namespace TeaUI
 {
@@ -6,7 +8,17 @@ namespace TeaUI
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Console.WriteLine("Welcome \n Are you a returning customer? [Y/N]");
+            string returningCustomer = System.Console.ReadLine();
+            if(returningCustomer == "n"){
+                Customer obj = new Customer();
+
+            }
+
+
         }
+
+        
+
     }
 }
