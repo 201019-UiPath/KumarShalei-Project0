@@ -9,20 +9,12 @@ namespace TeaBL
     {
         IRepository repo = new FileRepo();
 
-        public void GetInventory(){
+        public void GetCustomerInfo(){
 
         }
 
-        public void CheckPreviousOrders(){
-
+        public void AddNewCustomer(){
         }
 
-        public void CheckBasket(){
-
-        }
-
-        public void NewCustomer(){
-            System.Console.WriteLine("New Customer");
-        }
     }
 }
