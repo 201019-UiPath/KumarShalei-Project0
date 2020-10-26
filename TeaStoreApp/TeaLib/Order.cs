@@ -11,5 +11,6 @@ namespace TeaLib
         List<string> items = new List<string>();
         string subtotal;
         DateTime date;
+        bool completed;
     }
 }

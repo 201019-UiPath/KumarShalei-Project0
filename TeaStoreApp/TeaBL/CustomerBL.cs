@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace TeaBL
 {
-    public class Class1
+    public class CustomerBL
     {
         IRepository repo = new FileRepo();
 
