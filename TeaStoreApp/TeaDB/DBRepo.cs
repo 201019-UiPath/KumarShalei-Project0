@@ -19,6 +19,9 @@ namespace TeaDB
             this.mapper = mapper;
         }
 
+
+
+
         public void AddProductToOrderList(OrderListModel order)
         {
             context.Orderlist.Add(mapper.ParseOrderList(order));
@@ -31,9 +34,13 @@ namespace TeaDB
             context.SaveChanges();
         }
 
-        public ProductModel GetProductFunFact(int id)
-        {
-            return mapper.ParseProduct(context.Products.First(p => p.Productid == id));
+        
+        public List<OrderListModel> GetItemsInBasket(int orderid){
+            return mapper.ParseOrderList(
+                context.Orderlist
+                .Where(i => i.Orderid == orderid)
+                .ToList()
+            );
         }
 
         public void NewOrder(OrderModel order)
@@ -47,6 +54,35 @@ namespace TeaDB
             context.Orders.Remove(mapper.ParseOrder(order));
             context.SaveChanges();
         }
+
+        public bool OldOrder(int customerId, int locationId)
+        {
+            var orders = context.Orders.Where(i => i.Customerid == customerId).First(i => i.Locationid == locationId);
+            if (orders == null){
+                return false;
+            }
+            else {
+                return true;
+            }
+        }
+
+        public int GetOrderId(int customerid, int locationId){
+            var Id =  mapper.ParseOrder(
+                context.Orders.Where(i => i.Customerid == customerid).First(i => i.Locationid == locationId)
+            );
+            return Id.id;
+
+        }
+
+
+
+        public void PlaceOrder(OrderModel order){
+            var orders = context.Orders.First(i => i.Orderid == order.id);
+            orders.Payed = true;
+            context.SaveChanges();
+        }
+
+
 
 
         public List<InventoryModel> GetLocationInventory(int x)
@@ -85,11 +121,13 @@ namespace TeaDB
             context.SaveChangesAsync();
         }
 
-
-        public void OldOrder(OrderModel order)
-        {
-            throw new System.NotImplementedException();
+        public CustomerModel GetCustomer(int id){
+            return mapper.ParseCustomer(
+                context.Customers
+                .First(i => i.Customerid == id)
+            );
         }
+        
 
         public void ReplenishStock(int locationid, int productid, int amount)
         {
@@ -101,6 +139,12 @@ namespace TeaDB
             stock.Stock += amount;
             context.SaveChanges();
             
+        }
+
+
+        public ProductModel GetProductFunFact(int id)
+        {
+            return mapper.ParseProduct(context.Products.First(p => p.Productid == id));
         }
     }
 }

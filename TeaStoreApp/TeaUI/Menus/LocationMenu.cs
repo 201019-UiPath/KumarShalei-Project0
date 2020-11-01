@@ -1,11 +1,13 @@
 using System;
-
+using TeaDB;
+using TeaDB.Models;
+using TeaDB.Entities;
 namespace TeaUI.Menus
 {
     public class LocationMenu
     {
         private int locationId;
-        public LocationMenu(int locationId){
+        public LocationMenu(int locationId,CustomerModel customer){
             this.locationId = locationId;
         }
 
@@ -21,7 +23,7 @@ namespace TeaUI.Menus
                         System.Console.WriteLine("Look at Products");
                         break;
                     case "1":
-                        System.Console.WriteLine("Choose Products");
+                        System.Console.WriteLine("Look at past Purchases");
                         break;
                     case "2":
                         System.Console.WriteLine("ViewingBasket");
@@ -40,9 +42,9 @@ namespace TeaUI.Menus
 
         public void Options(){
             System.Console.WriteLine("[0] Look at Products");
-            System.Console.WriteLine("[1] Choose Product");
-            System.Console.WriteLine("[2] View Basket");
-            System.Console.WriteLine("[3] Switch Location");
+            System.Console.WriteLine("[1] Look at your past Purchases");
+            System.Console.WriteLine("[2] Add an item to Basket");
+            System.Console.WriteLine("[3] Switch Locations");
             System.Console.WriteLine("[4] Leave");
         }
 
