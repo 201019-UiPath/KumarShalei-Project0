@@ -17,8 +17,8 @@ namespace TeaLib
         public void AddProductToOrderList(OrderListModel order){
             repo.AddProductToOrderList(order);
         }
-        public void DeleteProductFromOrderList(OrderListModel order){
-            repo.DeleteProductFromOrderList(order);
+        public void DeleteProductFromOrderList(int productid,int orderid){
+            repo.DeleteProductFromOrderList(productid,orderid);
         }
         public List<OrderListModel> GetItemsInBasket(int orderid){
             return repo.GetItemsInBasket(orderid);

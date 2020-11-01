@@ -5,7 +5,7 @@ namespace TeaDB.IRepo
     public interface IOrderListRepo
     {
         void AddProductToOrderList(OrderListModel order);
-        void DeleteProductFromOrderList(OrderListModel order);
+        void DeleteProductFromOrderList(int orderid, int productid);
         List<OrderListModel> GetItemsInBasket(int orderid);
     }
 }

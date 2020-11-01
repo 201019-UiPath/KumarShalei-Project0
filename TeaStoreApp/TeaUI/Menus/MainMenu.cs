@@ -1,41 +1,50 @@
 using TeaDB.Entities;
 using TeaDB.IMappers;
+using TeaDB.Models;
 using TeaDB;
 using TeaLib;
 using System;
+using TeaUI.Menus;
 
 namespace TeaUI.Menus
 {
+
     public class MainMenu
     {
         private string userInput;
-        private LocationMenu locationMenu;  
+        private MainMenu mainMenu;
+        private ManagerMenu managerMenu;  
+        private TeaContext context;
+        private  CustomerService customerService;
+        private LocationMenu locationMenu;
 
 
-        public MainMenu(TeaContext context, IMapper mapper){
-            //this.locationMenu = new LocationMenu(new DBRepo(context,mapper), new OrderPlaced());
-            //this.mapper = mapper;
-            
-        }
-
-        void Start(){
+       public void Start(){
             string input;
             System.Console.WriteLine("Welcome to *insert name \n Are you a returning Customer? [Y/N]");
             input = System.Console.ReadLine();
-            if (input.ToLower() == "y"){
+            CustomerModel customer = new CustomerModel();
                 //get customer info
-            } else {
+            if (input.ToLower() == "n"){
                 string name;
                 System.Console.WriteLine("Enter Name: ");
                 name = System.Console.ReadLine();
-                //new customer
+                customer.name = name;
+                customerService.AddCustomer(customer);
+
+            } else{
+                customer = customerService.GetCustomer(2);
             }
 
-            System.Console.WriteLine("Which Location would you like to visit?");
-            input = System.Console.ReadLine();
-
-            //Call location menu
-
+            if(customer.name == "Manager"){
+                ManagerMenu managerMenu = new ManagerMenu();
+            } else {
+                System.Console.WriteLine("Which location do you want to visit? [1|2|3]");
+                input = System.Console.ReadLine();
+                LocationMenu locationMenu = new LocationMenu(Convert.ToInt32(input), customer);             
+                    
+            }
         }
+        
     }
 }

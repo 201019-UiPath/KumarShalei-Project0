@@ -28,8 +28,9 @@ namespace TeaDB
             context.SaveChanges();
         }
 
-        public void DeleteProductFromOrderList(OrderListModel order)
+        public void DeleteProductFromOrderList(int orderid, int productid)
         {
+            var order = mapper.ParseOrderList(context.Orderlist.Where(i => i.Orderid == orderid).First(i=>i.Product == productid));
             context.Orderlist.Remove(mapper.ParseOrderList(order));
             context.SaveChanges();
         }
@@ -49,8 +50,9 @@ namespace TeaDB
             context.SaveChanges();
         }
 
-        public void DeleteOrder(OrderModel order)
+        public void DeleteOrder(int orderid)
         {
+            var order = mapper.ParseOrder(context.Orders.First(i=>i.Orderid ==orderid));
             context.Orders.Remove(mapper.ParseOrder(order));
             context.SaveChanges();
         }
@@ -68,7 +70,7 @@ namespace TeaDB
 
         public int GetOrderId(int customerid, int locationId){
             var Id =  mapper.ParseOrder(
-                context.Orders.Where(i => i.Customerid == customerid).First(i => i.Locationid == locationId)
+                context.Orders.Where(i => i.Customerid == customerid).Where(i => i.Locationid == locationId).First(i => i.Payed == false)
             );
             return Id.id;
 
@@ -76,8 +78,8 @@ namespace TeaDB
 
 
 
-        public void PlaceOrder(OrderModel order){
-            var orders = context.Orders.First(i => i.Orderid == order.id);
+        public void PlaceOrder(int orderid){
+            var orders = context.Orders.First(i => i.Orderid == orderid);
             orders.Payed = true;
             context.SaveChanges();
         }

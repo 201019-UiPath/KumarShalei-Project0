@@ -7,8 +7,8 @@ namespace TeaDB.IRepo
     {
         void NewOrder(OrderModel order);
         bool OldOrder(int customerId, int locationId);
-        void DeleteOrder(OrderModel order);
-        void PlaceOrder(OrderModel order);
+        void DeleteOrder(int orderid);
+        void PlaceOrder(int orderid);
         int GetOrderId(int customerid, int locationId);
         
     }

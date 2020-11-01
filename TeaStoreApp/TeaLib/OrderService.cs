@@ -23,11 +23,11 @@ namespace TeaLib
         public bool OldOrder(int customerId, int locationId){
             return repo.OldOrder(customerId,locationId);
         }
-        public void DeleteOrder(OrderModel order){
-            repo.DeleteOrder(order);
+        public void DeleteOrder(int orderid){
+            repo.DeleteOrder(orderid);
         }
-        public void PlaceOrder(OrderModel order){
-            repo.PlaceOrder(order);
+        public void PlaceOrder(int orderid){
+            repo.PlaceOrder(orderid);
         }
         public int GetOrderId(int customerid, int locationId){
             return repo.GetOrderId(customerid,locationId);
