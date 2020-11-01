@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 namespace TeaDB.Models
 {
     public class OrderModel
@@ -6,5 +7,6 @@ namespace TeaDB.Models
         public int customerId{get;set;}
         public int locationId{get;set;}
         public bool complete{get;set;}
+        //public Dictionary<ProductModel, int> items {get;set;}
     }
 }

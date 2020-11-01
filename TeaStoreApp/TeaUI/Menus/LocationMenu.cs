@@ -4,9 +4,14 @@ namespace TeaUI.Menus
 {
     public class LocationMenu
     {
+        private int locationId;
+        public LocationMenu(int locationId){
+            this.locationId = locationId;
+        }
+
         public void Start(){
             string input;
-            Console.WriteLine("Welcome to our __ Location!");
+            Console.WriteLine($"Welcome to our Location {this.locationId}!");
             Options();
             
             do{

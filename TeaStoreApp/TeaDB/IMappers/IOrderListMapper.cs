@@ -2,7 +2,7 @@ using TeaDB.Models;
 using TeaDB.Entities;
 using System.Collections.Generic;
 
-namespace TeaDB
+namespace TeaDB.IMappers
 {
     public interface IOrderListMapper
     {

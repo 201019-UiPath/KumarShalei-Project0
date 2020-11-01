@@ -9,8 +9,8 @@ namespace TeaUI
     {
         static void Main(string[] args)
         {
-            
-            LocationMenu startMenu = new LocationMenu();
+            int x = 2;
+            LocationMenu startMenu = new LocationMenu(x);
             startMenu.Start();
 
 

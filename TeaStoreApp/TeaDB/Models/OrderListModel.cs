@@ -5,5 +5,6 @@ namespace TeaDB.Models
         public int orderId{get;set;}
         public int productId{get;set;}
         public int amount{get;set;}
+
     }
 }

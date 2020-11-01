@@ -1,7 +1,7 @@
 using TeaDB.Entities;
 using TeaDB.Models;
 using System.Collections.Generic;
-namespace TeaDB
+namespace TeaDB.IMappers
 {
     public interface IProductMapper
     {

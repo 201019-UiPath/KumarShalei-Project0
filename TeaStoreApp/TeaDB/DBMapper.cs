@@ -1,10 +1,11 @@
 using System.Collections.Generic;
 using TeaDB.Entities;
 using TeaDB.Models;
+using TeaDB.IMappers;
 
 namespace TeaDB
 {
-    public class DBMapper : ICustomerMapper,IInventoryMapper,ILocationMapper,IOrderListMapper,IOrderMapper,IProductMapper
+    public class DBMapper : IMapper
     {
         public Customers ParseCustomer(CustomerModel customer)
         {
@@ -111,6 +112,13 @@ namespace TeaDB
             return location;
         }
 
+
+
+
+
+
+
+
         public Orders ParseOrder(OrderModel order)
         {
             return new Orders(){
@@ -119,6 +127,8 @@ namespace TeaDB
                 Payed = order.complete
             };
         }
+
+        
 
         public ICollection<Orders> ParseOrder(List<OrderModel> order)
         {
@@ -148,6 +158,15 @@ namespace TeaDB
             }
             return order;
         }
+
+
+
+
+
+
+
+
+
 
         public Orderlist ParseOrderList(OrderListModel orderList)
         {
