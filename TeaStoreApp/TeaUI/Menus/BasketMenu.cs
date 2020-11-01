@@ -16,7 +16,6 @@ namespace TeaUI.Menus
         private OrderListService  orderlistService;
         private OrderService orderService;
         private LocationService locationService;
-        private DBRepo Repo;
         public int customerid{get;set;}
         public int locationid{get;set;}
         public int orderid{get;set;}
@@ -26,6 +25,11 @@ namespace TeaUI.Menus
         
         public BasketMenu(List<OrderListModel> products){
             this.products = products;
+            this.customerService = new CustomerService();
+            this.productService = new ProductService();
+            this.orderlistService = new OrderListService();
+            this.orderService = new OrderService();
+            this.locationService = new LocationService();
         }
 
         public void Start(){

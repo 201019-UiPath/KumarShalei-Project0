@@ -9,9 +9,9 @@ namespace TeaLib
     public class OrderListService
     {
 
-        private IOrderListRepo repo;
-        public OrderListService(IOrderListRepo repo){
-            this.repo = repo;
+        private DBRepo repo;
+        public OrderListService(){
+            this.repo = new DBRepo();
         }
 
         public void AddProductToOrderList(OrderListModel order){

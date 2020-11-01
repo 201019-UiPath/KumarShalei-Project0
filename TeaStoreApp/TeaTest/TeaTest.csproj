@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TeaLib\TeaLib.csproj" />
+    <ProjectReference Include="..\TeaDB\TeaDB.csproj" />
   </ItemGroup>
 
 </Project>

@@ -31,7 +31,7 @@ namespace TeaDB.Entities
             {
                 var configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("../../appsettings.json")
+                .AddJsonFile("appsettings.json")
                 .Build();
 
                 var connectionString = configuration.GetConnectionString("HerosDB");

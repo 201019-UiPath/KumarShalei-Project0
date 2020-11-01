@@ -3,7 +3,7 @@ using TeaDB;
 using TeaDB.Models;
 using TeaDB.Entities;
 using TeaLib;
-using TeaDB;
+//using TeaDB;
 using System.Collections.Generic;
 namespace TeaUI.Menus
 {
@@ -11,8 +11,6 @@ namespace TeaUI.Menus
     {
         private int locationId;
         private CustomerModel customer;
-        private TeaContext context;
-        private DBMapper mapper;
         private  CustomerService customerService;
         private ProductService productService;
         private OrderListService  orderlistService;
@@ -23,6 +21,10 @@ namespace TeaUI.Menus
         public LocationMenu(int locationId,CustomerModel customer){
             this.locationId = locationId;
             this.customer = customer;
+            this.customerService = new CustomerService();
+            this.productService = new ProductService();
+            this.orderlistService = new OrderListService();
+            this.locationService = new LocationService();
             
         }
 
@@ -49,6 +51,23 @@ namespace TeaUI.Menus
                             }
                         break;
                     case "2":
+                        System.Console.WriteLine("Adding to basket");
+                        if(!orderService.OldOrder(this.customer.id,locationId)){
+                            
+                            orderService.NewOrder(this.customer.id,locationId);
+                        }
+                        int orderid = orderService.GetOrderId(this.customer.id,locationId);
+                        System.Console.WriteLine("Which Product?");
+                        int productId = Convert.ToInt32(System.Console.ReadLine());
+                        System.Console.WriteLine("How many?");
+                        int amount = Convert.ToInt32(System.Console.ReadLine());
+                        orderlistService.AddProductToOrderList(new OrderListModel(){
+                            orderId = orderid,
+                            productId = productId,
+                            amount= amount});
+                        
+                        break;
+                    case "3":
                         System.Console.WriteLine("ViewingBasket");
                         if(!orderService.OldOrder(customer.id,locationId)){
                             System.Console.WriteLine("Basket is empty");
@@ -63,15 +82,15 @@ namespace TeaUI.Menus
                             basketMenu.Start();
                         }
                         break;
-                    case "3":
+                    case "4":
                         System.Console.WriteLine("Switching Location");
                         break;
-                    case "4":
+                    case "5":
                         System.Console.WriteLine("Bye");
                         break;
 
                 }
-            }while(input!="4" || input !="3");
+            }while(input!="4" || input !="5");
         }
         
 
@@ -79,8 +98,9 @@ namespace TeaUI.Menus
             System.Console.WriteLine("[0] Look at Products");
             System.Console.WriteLine("[1] Look at your past Purchases");
             System.Console.WriteLine("[2] Add an item to Basket");
-            System.Console.WriteLine("[3] Switch Locations");
-            System.Console.WriteLine("[4] Leave");
+            System.Console.WriteLine("[3] look at basket");
+            System.Console.WriteLine("[4] switch Location");
+            System.Console.WriteLine("[5] Leave");
         }
 
     }

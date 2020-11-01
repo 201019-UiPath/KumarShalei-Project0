@@ -6,6 +6,7 @@ using TeaDB.IMappers;
 using TeaDB.IRepo;
 using System.Threading.Tasks;
 using System.Linq;
+using System;
 
 namespace TeaDB
 {
@@ -14,23 +15,94 @@ namespace TeaDB
     {
         private readonly TeaContext context;
         private readonly IMapper mapper; 
-        public DBRepo(TeaContext context, IMapper mapper){
-            this.context = context;
-            this.mapper = mapper;
+        public DBRepo(){
+            this.context = new TeaContext();
+            this.mapper = new DBMapper();
         }
+
+
+
+        public List<OrderModel> GetOrderHistory(int id)
+        {
+           return mapper.ParseOrder(
+                context.Orders
+                .Include("orderlist")
+                .Where(i => i.Customerid == id && i.Payed == true)
+                .ToList()
+            );
+        }
+
+
+        public void NewCustomerAsync(CustomerModel customer)
+        {
+            context.Customers.AddAsync(mapper.ParseCustomer(customer));
+            context.SaveChangesAsync();
+        }
+
+        public CustomerModel GetCustomer(int id){
+            return mapper.ParseCustomer(
+                context.Customers
+                .SingleOrDefault(i => i.Customerid == id)
+            );
+        }
+
+
+
+
+
+        public void ReplenishStock(int locationid, int productid, int amount)
+        {
+            var stock = 
+                context.Inventory
+                .First(i => i.Locationid == locationid && i.Product == productid)
+            ;           
+            stock.Stock += amount;
+            context.SaveChanges();           
+        }
+
+
+
+
+
+
+
+        public List<InventoryModel> GetLocationInventory(int x)
+        {
+            return mapper.ParseInventory(
+                context.Inventory
+                .Where(i => i.Locationid == x)
+                .ToList()
+            );
+        }
+
+
+        public List<OrderModel> GetLocationOrderHistory(int x)
+        {
+            return mapper.ParseOrder(
+                context.Orders
+                .Include("OrderList")
+                .Where(i => i.Locationid == x)
+                .ToList()
+            );
+        }
+
+
+
+
 
 
 
 
         public void AddProductToOrderList(OrderListModel order)
         {
+            
             context.Orderlist.Add(mapper.ParseOrderList(order));
             context.SaveChanges();
         }
 
         public void DeleteProductFromOrderList(int orderid, int productid)
         {
-            var order = mapper.ParseOrderList(context.Orderlist.Where(i => i.Orderid == orderid).First(i=>i.Product == productid));
+            var order = mapper.ParseOrderList(context.Orderlist.First(i => i.Orderid == orderid && i.Product == productid));
             context.Orderlist.Remove(mapper.ParseOrderList(order));
             context.SaveChanges();
         }
@@ -44,9 +116,20 @@ namespace TeaDB
             );
         }
 
-        public void NewOrder(OrderModel order)
+
+
+
+
+
+
+
+        public void NewOrder(int customerid, int locationid)
         {
-            context.Orders.Add(mapper.ParseOrder(order));
+            Orders order = new Orders{
+                Customerid = customerid,
+                Locationid = locationid
+            };
+            context.Orders.Add(order);
             context.SaveChanges();
         }
 
@@ -59,18 +142,13 @@ namespace TeaDB
 
         public bool OldOrder(int customerId, int locationId)
         {
-            var orders = context.Orders.Where(i => i.Customerid == customerId).First(i => i.Locationid == locationId);
-            if (orders == null){
-                return false;
-            }
-            else {
-                return true;
-            }
+            var order = context.Orders.First(i => i.Locationid == locationId && i.Customerid == customerId);
+            return Convert.ToBoolean(order.Payed);
         }
 
         public int GetOrderId(int customerid, int locationId){
             var Id =  mapper.ParseOrder(
-                context.Orders.Where(i => i.Customerid == customerid).Where(i => i.Locationid == locationId).First(i => i.Payed == false)
+                context.Orders.Where(i => i.Customerid == customerid).First(i => i.Locationid == locationId && i.Payed == false)
             );
             return Id.id;
 
@@ -87,61 +165,12 @@ namespace TeaDB
 
 
 
-        public List<InventoryModel> GetLocationInventory(int x)
-        {
-            return mapper.ParseInventory(
-                context.Inventory
-                .Where(i => i.Locationid == x)
-                .ToList()
-            );
-        }
-
-        public List<OrderModel> GetLocationOrderHistory(int x)
-        {
-            return mapper.ParseOrder(
-                context.Orders
-                .Include("OrderList")
-                .Where(i => i.Locationid == x)
-                .ToList()
-            );
-        }
-
-        public List<OrderModel> GetOrderHistory(int id)
-        {
-           return mapper.ParseOrder(
-                context.Orders
-                .Include("OrderList")
-                .Where(i => i.Customerid == id)
-                .ToList()
-            );
-        }
+       
 
 
-        public void NewCustomerAsync(CustomerModel customer)
-        {
-            context.Customers.AddAsync(mapper.ParseCustomer(customer));
-            context.SaveChangesAsync();
-        }
-
-        public CustomerModel GetCustomer(int id){
-            return mapper.ParseCustomer(
-                context.Customers
-                .First(i => i.Customerid == id)
-            );
-        }
         
 
-        public void ReplenishStock(int locationid, int productid, int amount)
-        {
-            var stock = 
-                context.Inventory
-                .Where(i => i.Locationid == locationid)
-                .First(i => i.Product == productid)
-            ;
-            stock.Stock += amount;
-            context.SaveChanges();
-            
-        }
+
 
 
         public ProductModel GetProductFunFact(int id)

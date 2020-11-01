@@ -8,10 +8,10 @@ namespace TeaLib
 {
     public class LocationService
     {
-        private ILocationRepo repo;
+        private DBRepo repo;
 
-        public LocationService(ILocationRepo repo){
-            this.repo = repo;
+        public LocationService(){
+            this.repo = new DBRepo();
         }
 
         public List<OrderModel> GetLocationOrderHistory(int x){

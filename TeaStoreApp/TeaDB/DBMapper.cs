@@ -14,15 +14,15 @@ namespace TeaDB
             };
         }
 
-        public ICollection<Customers> ParseCustomer(List<CustomerModel> customer)
-        {
-            ICollection<Customers> customers = new List<Customers>();
-            foreach (var c in customer){
+        // public ICollection<Customers> ParseCustomer(List<CustomerModel> customer)
+        // {
+        //     ICollection<Customers> customers = new List<Customers>();
+        //     foreach (var c in customer){
 
-                customers.Add(ParseCustomer(c));
-            }
-            return customers;
-        }
+        //         customers.Add(ParseCustomer(c));
+        //     }
+        //     return customers;
+        // }
 
         public CustomerModel ParseCustomer(Customers customer)
         {
@@ -32,14 +32,14 @@ namespace TeaDB
             };
         }
 
-        public List<CustomerModel> ParseCustomer(ICollection<Customers> customer)
-        {
-            List<CustomerModel> customers = new List<CustomerModel>();
-            foreach (var c in customer){
-                customers.Add(ParseCustomer(c));
-            }
-            return customers;
-        }
+        // public List<CustomerModel> ParseCustomer(ICollection<Customers> customer)
+        // {
+        //     List<CustomerModel> customers = new List<CustomerModel>();
+        //     foreach (var c in customer){
+        //         customers.Add(ParseCustomer(c));
+        //     }
+        //     return customers;
+        // }
 
         public Inventory ParseInventory(InventoryModel inventory)
         {

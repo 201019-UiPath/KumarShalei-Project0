@@ -12,28 +12,37 @@ namespace TeaUI.Menus
     public class MainMenu
     {
         private string userInput;
-        private MainMenu mainMenu;
-        private ManagerMenu managerMenu;  
-        private TeaContext context;
-        private  CustomerService customerService;
+
         private LocationMenu locationMenu;
+        private ManagerMenu managerMenu;  
+
+        private  CustomerService customerService;
+        
+
+        public MainMenu(){
+            //this.context = new TeaContext();
+            this.customerService = new CustomerService();
+        }
 
 
        public void Start(){
             string input;
             System.Console.WriteLine("Welcome to *insert name \n Are you a returning Customer? [Y/N]");
             input = System.Console.ReadLine();
-            CustomerModel customer = new CustomerModel();
+            CustomerModel customer;
                 //get customer info
             if (input.ToLower() == "n"){
                 string name;
                 System.Console.WriteLine("Enter Name: ");
                 name = System.Console.ReadLine();
-                customer.name = name;
+                customer = new CustomerModel(){name = name};
+                //customer.name = name;
                 customerService.AddCustomer(customer);
 
             } else{
-                customer = customerService.GetCustomer(2);
+                System.Console.WriteLine("Enter Customer Id");
+                int x = Convert.ToInt32(System.Console.ReadLine());
+                customer = customerService.GetCustomer(x);
             }
 
             if(customer.name == "Manager"){
@@ -42,7 +51,7 @@ namespace TeaUI.Menus
                 System.Console.WriteLine("Which location do you want to visit? [1|2|3]");
                 input = System.Console.ReadLine();
                 LocationMenu locationMenu = new LocationMenu(Convert.ToInt32(input), customer);             
-                    
+                locationMenu.Start();
             }
         }
         

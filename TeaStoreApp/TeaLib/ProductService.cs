@@ -9,10 +9,10 @@ namespace TeaLib
     public class ProductService
     {
         
-        private IProductRepo repo;
+        private DBRepo repo;
 
-        public ProductService(IProductRepo repo){
-            this.repo = repo;
+        public ProductService(){
+            this.repo = new DBRepo();
         }
 
         public ProductModel GetProductFunFact(int id){

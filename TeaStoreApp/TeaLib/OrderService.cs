@@ -9,15 +9,15 @@ namespace TeaLib
     public class OrderService
     {
         
-        private IOrderRepo repo;
+        private DBRepo repo;
 
-        public OrderService(IOrderRepo repo){
-            this.repo = repo;
+        public OrderService(){
+            this.repo = new DBRepo();
         }
 
 
-        public void NewOrder(OrderModel order){
-            repo.NewOrder(order);
+        public void NewOrder(int customerId, int locationId){
+            repo.NewOrder(customerId, locationId);
         }
 
         public bool OldOrder(int customerId, int locationId){
