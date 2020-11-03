@@ -54,11 +54,9 @@ namespace TeaDB
 
         public void ReplenishStock(InventoryModel inventory, int amount)
         {
-            var stock = 
-                context.Inventory
-                .First(i => i == mapper.ParseInventory(inventory))
-            ;           
-            stock.Stock += amount;
+            
+            context.Inventory.First(i => i == mapper.ParseInventory(inventory)).Stock += amount;
+           
             context.SaveChanges();           
         }
 
@@ -66,7 +64,12 @@ namespace TeaDB
 
 
 
-
+        public LocationModel GetLocation(int id){
+            return mapper.ParseLocation(
+                context.Locations
+                .First(l => l.Locationid == id)
+            );
+        }
 
         public List<OrderModel> GetLocationOrderHistory(int x)
         {
@@ -83,7 +86,6 @@ namespace TeaDB
         {
             return mapper.ParseInventory(
                 context.Inventory
-                .Include("Products")
                 .Where(i => i.Locationid == x)
                 .ToList()
             );
@@ -109,15 +111,24 @@ namespace TeaDB
             );
         }
 
+        public void DecreaseStock(InventoryModel inventory, int productid, int stock){
+            
+            context.Inventory.First(i => i.Productid == productid).Stock -=stock;
+            context.SaveChanges();
+        }
         public void AddProductToOrderItem(OrderItemModel order)
         {
             context.Orderitems.Add(mapper.ParseOrderItem(order));
             context.SaveChanges();
         }
 
-        public void DeleteProductFromOrderItem(OrderItemModel order)
+        public void DeleteProductFromOrderItem(int orderid, int productid)
         {
-            context.Orderitems.Remove(mapper.ParseOrderItem(order));
+            context.Orderitems.Remove(
+                context.Orderitems
+                .First(o => o.Productid == productid && o.Orderid == orderid)
+            );
+            
             context.SaveChanges();
         }
 
@@ -132,9 +143,9 @@ namespace TeaDB
 
         
 
-        public void DeleteOrder(OrderModel order)
+        public void DeleteOrder(int id)
         {
-            context.Orders.Remove(mapper.ParseOrder(order));
+            context.Orders.Remove(context.Orders.First(o => o.Orderid == id));
             context.SaveChanges();
         }
 
@@ -157,8 +168,8 @@ namespace TeaDB
 
 
         public void PlaceOrder(OrderModel order){
-            var orders = context.Orders.First(i => i.Orderid == order.id);
-            orders.Payed = true;
+            context.Orders.First(i => i.Orderid == order.id).Payed = true;
+
             context.SaveChanges();
         }
 
@@ -168,22 +179,24 @@ namespace TeaDB
        
         
 
-        public void ChangeOrderTotalPrice(OrderModel order, decimal amount)
+        public void ChangeOrderTotalPrice(int orderid, decimal amount)
         {
-            var orders = context.Orders.First(i => i == mapper.ParseOrder(order));
-            orders.Totalprice += amount;
+            context.Orders.First(i => i.Orderid == orderid).Totalprice += amount;
             context.SaveChanges();
         }
 
 
 
+        public ProductModel GetProduct(int productid){
+            return mapper.ParseProduct(
+                context.Products
+                .First(p => p.Productid == productid)
+            );
+        }
 
+       
+        
 
-
-        // public ProductModel GetProductFunFact(int id)
-        // {
-        //     return mapper.ParseProduct(context.Products.First(p => p.Productid == id));
-        // }
 
 
     }

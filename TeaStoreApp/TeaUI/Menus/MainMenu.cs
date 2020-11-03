@@ -11,49 +11,84 @@ namespace TeaUI.Menus
 
     public class MainMenu
     {
-        private string userInput;
+        private int userInput;
+        private string email;
 
-        private LocationMenu locationMenu;
+        private CustomerModel customer;
         private ManagerMenu managerMenu;  
 
         private  CustomerService customerService;
         
-
         public MainMenu(){
-            //this.context = new TeaContext();
             this.customerService = new CustomerService();
         }
 
 
-       public void Start(){
-            string input;
-            System.Console.WriteLine("Welcome to *insert name \n Are you a returning Customer? [Y/N]");
-            input = System.Console.ReadLine();
-            CustomerModel customer;
-                //get customer info
-            if (input.ToLower() == "n"){
-                string name;
-                System.Console.WriteLine("Enter Name: ");
-                name = System.Console.ReadLine();
-                customer = new CustomerModel(){name = name};
-                //customer.name = name;
-                customerService.AddCustomer(customer);
+        public void Start(){
+            do{
+                System.Console.WriteLine("Welcome to *insert name \n Are you a returning Customer? [Y/N]");
+                string oldCustomer = System.Console.ReadLine();
+                
+                if (oldCustomer.ToLower() == "n"){
+                    customer = NewCustomer();
+                }else{
+                    customer = OldCustomer();
+                }
 
-            } else{
-                System.Console.WriteLine("Enter Customer Id");
-                int x = Convert.ToInt32(System.Console.ReadLine());
-                customer = customerService.GetCustomer(x);
-            }
+                System.Console.WriteLine($"Welcome {customer.firstName}!");
+                Options();
+                userInput = Convert.ToInt32(System.Console.ReadLine());
+                switch(userInput){
+                    case 0:
+                        LocationMenu locationMenu1 = new LocationMenu(1,customer);
+                        locationMenu1.Start();
+                        break;
+                    case 1:
+                        LocationMenu locationMenu2 = new LocationMenu(2,customer);
+                        locationMenu2.Start();
+                        break;
+                    case 2:
+                        LocationMenu locationMenu3 = new LocationMenu(3,customer);
+                        locationMenu3.Start();
+                        break;
+                    case 3:
+                        System.Console.WriteLine("GoodBye!");
+                        break;
 
-            if(customer.name == "Manager"){
-                ManagerMenu managerMenu = new ManagerMenu();
-            } else {
-                System.Console.WriteLine("Which location do you want to visit? [1|2|3]");
-                input = System.Console.ReadLine();
-                LocationMenu locationMenu = new LocationMenu(Convert.ToInt32(input), customer);             
-                locationMenu.Start();
-            }
+                }
+            } while(userInput!=3);
         }
+
+
+        public CustomerModel NewCustomer(){
+            System.Console.WriteLine("Enter First Name: ");
+            string firstName = System.Console.ReadLine();
+
+            System.Console.WriteLine("Enter Last Name: ");
+            string lastName = System.Console.ReadLine();
+            
+            System.Console.WriteLine("Enter email: ");
+            email = System.Console.ReadLine();
+            customerService.AddCustomer(firstName,lastName,email);
+            CustomerModel customer = customerService.GetCustomerInfo(email);
+            return customer;
+        }
+
+        public CustomerModel OldCustomer(){
+            System.Console.WriteLine("Enter email: ");
+            email = System.Console.ReadLine();
+            CustomerModel customer = customerService.GetCustomerInfo(email);
+            return customer;
+        }
+
+        public void Options(){
+            System.Console.WriteLine("[0] Would You like to go to our Albany, NY Location?");
+            System.Console.WriteLine("[1] Would You like to go to our Buffalo, NY Location?");
+            System.Console.WriteLine("[2] Would You like to go to our Syracuse, NY Location?");
+            System.Console.WriteLine("[3] Would You like to leave?");
+
+        }
+        
         
     }
 }

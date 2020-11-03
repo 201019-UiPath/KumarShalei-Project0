@@ -12,20 +12,24 @@ namespace TeaTest
 {
     public class TeaTests
     {
-        [Fact]
-        public void GetCustomerShouldGetCustomer()
-        {
+        // [Fact]
+        // public void GetCustomerShouldGetCustomer()
+        // {
             
-            CustomerService repo= new CustomerService();
+        //     CustomerService repo= new CustomerService();
             
-            int x = 1;
-            CustomerModel test1 = new CustomerModel(){
-                id = 1,
-                name = "Laramie"
-            };
-            var customer = repo.GetCustomer(x);
+        //     CustomerModel test1 = new CustomerModel(){
+        //         id = 2,
+        //         firstName = "Laramie",
+        //         lastName = "Cole",
+        //         email = "lacol23@yahoo.com"
+        //     };
+        //     string x = "lacol23@yahoo.com";
+        //     var customer = repo.GetCustomerInfo(x);
 
-            Assert.Equal(customer, test1);
-        }
+        //     Assert.Equal(customer, test1);
+        // }
+
+        
     }
 }

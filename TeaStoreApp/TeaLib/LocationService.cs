@@ -20,5 +20,10 @@ namespace TeaLib
         public List<InventoryModel> GetLocationInventory(int x){
             return repo.GetLocationInventory(x);
         }
+
+        public LocationModel GetLocation(int id){
+            return repo.GetLocation(id);
+        }
+
     }
 }

@@ -38,27 +38,17 @@ namespace TeaLib
             };
             repo.AddProductToOrderItem(order);
         }
-        public void DeleteProductFromOrderItem(int orderid, int productid, int amount, decimal price){
-            OrderItemModel order = new OrderItemModel(){
-                orderId = orderid,
-                productId = productid,
-                amount = amount,
-                totalPrice = price
-            };
-            repo.DeleteProductFromOrderItem(order);
+        public void DeleteProductFromOrderItem(int orderid, int productid){
+            
+            repo.DeleteProductFromOrderItem(orderid, productid);
         }
 
         public List<OrderItemModel> GetItemsInBasket(int orderid){
             return repo.GetItemsInBasket(orderid);
         }
 
-        public void DeleteOrder(int customerId, int locationId, decimal price){
-            OrderModel order = new OrderModel(){
-                customerId = customerId,
-                locationId = locationId,
-                totalPrice = price
-            };
-            repo.DeleteOrder(order);
+        public void DeleteOrder(int orderid){
+            repo.DeleteOrder(orderid);
         }
 
         public int GetOrderId(CustomerModel customer, int locationId){
@@ -77,7 +67,18 @@ namespace TeaLib
         // }
 
 
-        
+        public void DecreaseStock(InventoryModel inventory, int productid, int stock){
+            repo.DecreaseStock(inventory, productid, stock);
+        }
+
+        public void ChangeOrderTotalPrice(int orderid, decimal amount){
+            repo.ChangeOrderTotalPrice(orderid,amount);
+        }
+        public ProductModel GetProduct(int productid){
+            return repo.GetProduct(productid);
+        }
+
+
 
         
     }

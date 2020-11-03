@@ -5,6 +5,7 @@ namespace TeaDB.Entities
 {
     public partial class Orderitems
     {
+        public int Orderitemsid { get; set; }
         public int? Orderid { get; set; }
         public int? Productid { get; set; }
         public int? Amount { get; set; }

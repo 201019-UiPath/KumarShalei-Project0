@@ -200,6 +200,7 @@ namespace TeaDB
         public OrderItemModel ParseOrderItem(Orderitems ordertimes)
         {
             return new OrderItemModel(){
+                orderItemId = ordertimes.Orderitemsid,
                 orderId = Convert.ToInt32(ordertimes.Orderid),
                 productId = Convert.ToInt32(ordertimes.Productid),
                 amount = Convert.ToInt32(ordertimes.Amount),
@@ -219,6 +220,7 @@ namespace TeaDB
         public Products ParseProduct(ProductModel product)
         {
             return new Products(){
+
                 Productname = product.name,
                 Numberofteabags = product.numberOfTeaBags,
                 Price = product.price,

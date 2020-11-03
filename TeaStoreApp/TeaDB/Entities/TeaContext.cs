@@ -24,6 +24,7 @@ namespace TeaDB.Entities
         public virtual DbSet<Orders> Orders { get; set; }
         public virtual DbSet<PgStatStatements> PgStatStatements { get; set; }
         public virtual DbSet<Products> Products { get; set; }
+        
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -34,7 +35,7 @@ namespace TeaDB.Entities
                 .AddJsonFile("appsettings.json")
                 .Build();
 
-                var connectionString = configuration.GetConnectionString("HerosDB");
+                var connectionString = configuration.GetConnectionString("TeaDB");
                 optionsBuilder.UseNpgsql(connectionString);
             }
         }
@@ -130,9 +131,9 @@ namespace TeaDB.Entities
 
             modelBuilder.Entity<Orderitems>(entity =>
             {
-                entity.HasNoKey();
-
                 entity.ToTable("orderitems");
+
+                entity.Property(e => e.Orderitemsid).HasColumnName("orderitemsid");
 
                 entity.Property(e => e.Amount).HasColumnName("amount");
 
@@ -145,12 +146,12 @@ namespace TeaDB.Entities
                     .HasColumnType("numeric(10,2)");
 
                 entity.HasOne(d => d.Order)
-                    .WithMany()
+                    .WithMany(p => p.Orderitems)
                     .HasForeignKey(d => d.Orderid)
                     .HasConstraintName("orderitems_orderid_fkey");
 
                 entity.HasOne(d => d.Product)
-                    .WithMany()
+                    .WithMany(p => p.Orderitems)
                     .HasForeignKey(d => d.Productid)
                     .HasConstraintName("orderitems_productid_fkey");
             });
@@ -268,6 +269,7 @@ namespace TeaDB.Entities
                     .HasMaxLength(20);
             });
 
+           
             OnModelCreatingPartial(modelBuilder);
         }
 

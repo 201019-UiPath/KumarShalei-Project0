@@ -8,17 +8,23 @@ namespace TeaDB.IRepo
         void NewOrder(OrderModel order);
         //OrderModel OldOrder(int customerId, int locationId);
         void AddProductToOrderItem(OrderItemModel order);
-        void DeleteProductFromOrderItem(OrderItemModel order);
+        void DeleteProductFromOrderItem(int orderid, int productid);
 
-        void DeleteOrder(OrderModel order);
+
+        void DecreaseStock(InventoryModel inventory, int productid, int stock);
+        void DeleteOrder(int orderid);
         void PlaceOrder(OrderModel order);
         int GetOrderId(CustomerModel customerid, int locationId);
 
-        void ChangeOrderTotalPrice(OrderModel order, decimal amount);
+        void ChangeOrderTotalPrice(int orderid, decimal amount);
     
         OrderModel GetCurrentOrder(int customerid, int locationid);
         
         List<OrderItemModel> GetItemsInBasket(int orderid);
+
+        ProductModel GetProduct(int productid);
+
+        //int GetOrderItemid(int orderid, int productid);
         
     }
 }
