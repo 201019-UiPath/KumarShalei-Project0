@@ -16,22 +16,69 @@ namespace TeaLib
         }
 
 
-        public void NewOrder(int customerId, int locationId){
-            repo.NewOrder(customerId, locationId);
+        public void NewOrder(int customerId, int locationId, decimal price){
+            OrderModel order = new OrderModel(){
+                customerId = customerId,
+                locationId = locationId,
+                totalPrice = price
+            };
+            repo.NewOrder(order);
         }
 
-        public bool OldOrder(int customerId, int locationId){
-            return repo.OldOrder(customerId,locationId);
+        public OrderModel GetCurrentOrder(int customerId, int locationId){
+            return repo.GetCurrentOrder(customerId,locationId);
         }
-        public void DeleteOrder(int orderid){
-            repo.DeleteOrder(orderid);
+
+        public void AddProductToOrderList(int orderid, int productid, int amount, decimal price){
+            OrderItemModel order = new OrderItemModel(){
+                orderId = orderid,
+                productId = productid,
+                amount = amount,
+                totalPrice = price
+            };
+            repo.AddProductToOrderItem(order);
         }
-        public void PlaceOrder(int orderid){
-            repo.PlaceOrder(orderid);
+        public void DeleteProductFromOrderItem(int orderid, int productid, int amount, decimal price){
+            OrderItemModel order = new OrderItemModel(){
+                orderId = orderid,
+                productId = productid,
+                amount = amount,
+                totalPrice = price
+            };
+            repo.DeleteProductFromOrderItem(order);
         }
-        public int GetOrderId(int customerid, int locationId){
-            return repo.GetOrderId(customerid,locationId);
+
+        public List<OrderItemModel> GetItemsInBasket(int orderid){
+            return repo.GetItemsInBasket(orderid);
         }
+
+        public void DeleteOrder(int customerId, int locationId, decimal price){
+            OrderModel order = new OrderModel(){
+                customerId = customerId,
+                locationId = locationId,
+                totalPrice = price
+            };
+            repo.DeleteOrder(order);
+        }
+
+        public int GetOrderId(CustomerModel customer, int locationId){
+
+            return repo.GetOrderId(customer,locationId);
+        }
+
+
+        public void PlaceOrder(OrderModel order){
+            repo.PlaceOrder(order);
+        }
+
+
+        // public ProductModel GetProductFunFact(int id){
+        //     return repo.GetProductFunFact(id);
+        // }
+
+
+        
+
         
     }
 }
