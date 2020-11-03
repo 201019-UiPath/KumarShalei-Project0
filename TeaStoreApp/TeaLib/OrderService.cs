@@ -79,7 +79,9 @@ namespace TeaLib
         }
 
 
-
+        public List<OrderItemModel> GetOrderItems(int orderid){
+            return repo.GetOrderItems(orderid);
+        }
         
     }
 }

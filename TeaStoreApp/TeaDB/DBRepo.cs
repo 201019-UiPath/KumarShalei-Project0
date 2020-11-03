@@ -25,7 +25,7 @@ namespace TeaDB
 
         public void NewCustomerAsync(CustomerModel customer)
         {
-            context.Customers.AddAsync(mapper.ParseCustomer(customer));
+            context.Customers.Add(mapper.ParseCustomer(customer));
             context.SaveChangesAsync();
         }
 
@@ -39,15 +39,25 @@ namespace TeaDB
 
         public List<OrderModel> GetOrderHistory(CustomerModel customer)
         {
-            return mapper.ParseOrder(
-                context.Orders
-                .Include("OrderItems")
-                .Where(c => c.Customerid == customer.id && c.Payed == true)
+            try{
+                return mapper.ParseOrder(
+                    context.Orders
+                    .Where(c => c.Customerid == customer.id && c.Payed == true)
+                    .ToList()
+                );
+            }
+            catch (System.InvalidOperationException){
+                return null;
+            }
+        }
+
+        public List<OrderItemModel> GetOrderItems(int orderid){
+            return mapper.ParseOrderItem(
+                context.Orderitems
+                .Where(o => o.Orderid == orderid)
                 .ToList()
             );
         }
-
-
 
        
             
@@ -75,7 +85,6 @@ namespace TeaDB
         {
             return mapper.ParseOrder(
                 context.Orders
-                .Include("OrderItems")
                 .Where(i => i.Locationid == x)
                 .ToList()
             );
@@ -116,6 +125,8 @@ namespace TeaDB
             context.Inventory.First(i => i.Productid == productid).Stock -=stock;
             context.SaveChanges();
         }
+
+        
         public void AddProductToOrderItem(OrderItemModel order)
         {
             context.Orderitems.Add(mapper.ParseOrderItem(order));
@@ -152,15 +163,17 @@ namespace TeaDB
         
 
         public int GetOrderId(CustomerModel customer, int locationId){
-            var order =  mapper.ParseOrder(
-                context.Orders
-                .Where(o => o.Customerid == customer.id)
-                .First(o => o.Locationid == locationId && o.Payed == false)
-            );
-            if(order != null){
+            try{
+                var order =  mapper.ParseOrder(
+                    context.Orders
+                    .Where(o => o.Customerid == customer.id)
+                    .First(o => o.Locationid == locationId && o.Payed == false)
+                );
                 return order.id;
-            } else {return -1;}
-
+            }
+            catch(System.InvalidOperationException){
+                return -1;
+            }
         }
 
         

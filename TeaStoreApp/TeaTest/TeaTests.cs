@@ -5,7 +5,7 @@ using TeaDB.Entities;
 using TeaDB.IMappers;
 using TeaDB.Models;
 using TeaDB.IRepo;
-using TeaDB;
+
 using TeaLib;
 
 namespace TeaTest

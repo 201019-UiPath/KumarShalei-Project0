@@ -4,7 +4,6 @@ using TeaDB;
 using TeaDB.Models;
 using TeaDB.Entities;
 using TeaLib;
-using TeaDB;
 using System.Collections.Generic;
 namespace TeaUI.Menus
 {
@@ -43,19 +42,26 @@ namespace TeaUI.Menus
 
                 }
                 Options();
-                int orderid = orderService.GetOrderId(customer,location.id);
+                int orderid;
                 input = System.Console.ReadLine();
                 switch(input){
                     case "1":
                         System.Console.WriteLine("Look at past Purchases");
                         List<OrderModel> pastPurchases = customerService.GetOrderHistory(customer);
+                        if(pastPurchases == null){
+                            System.Console.WriteLine("You have no past purchases");
+                        } else {
                             foreach(var p in pastPurchases){
-                                System.Console.WriteLine($"{p.id}");
+                                List<OrderItemModel> items = orderService.GetOrderItems(p.id);
+                                foreach(var i in items){
+                                    System.Console.WriteLine($"{locationService.GetLocation(p.id).city} {orderService.GetProduct(i.productId).name} {i.amount}");
+                                }
                             }
+                         }
                         break;
                     case "2":
                         System.Console.WriteLine("Adding to basket");
-                        
+                        orderid = orderService.GetOrderId(customer,location.id);
                         if(orderid == -1){
                             NewOrder();
                         } else {
@@ -64,6 +70,7 @@ namespace TeaUI.Menus
                         break;
                     case "3":
                         System.Console.WriteLine("ViewingBasket");
+                        orderid = orderService.GetOrderId(customer,location.id);
                         if(orderid == -1){
                             System.Console.WriteLine("Basket is empty");
                         } else{
@@ -98,7 +105,7 @@ namespace TeaUI.Menus
             orderService.NewOrder(customer.id, location.id, (product.price*amount));
             int id = orderService.GetOrderId(customer, location.id);
             orderService.AddProductToOrderList(id, product.id, amount,(product.price*amount));
-            InventoryModel inventoryModel = inventory.Where(i => i.productId == product.id).FirstOrDefault(); 
+            InventoryModel inventoryModel = inventory.Where(i => i.productId == product.id && i.locationId == location.id).FirstOrDefault(); 
             orderService.DecreaseStock(inventoryModel, product.id,amount);
             inventory = locationService.GetLocationInventory(location.id);
             

@@ -69,8 +69,12 @@ namespace TeaUI.Menus
             
             System.Console.WriteLine("Enter email: ");
             email = System.Console.ReadLine();
-            customerService.AddCustomer(firstName,lastName,email);
-            CustomerModel customer = customerService.GetCustomerInfo(email);
+            CustomerModel customer = new CustomerModel(){
+                firstName = firstName,
+                lastName = lastName,
+                email = email
+            };
+            customerService.AddCustomer(customer);
             return customer;
         }
 

@@ -16,13 +16,10 @@ namespace TeaLib
             this.repo = new DBRepo();
         }
 
-        public void AddCustomer(string firstName, string lastName, string email){
-            CustomerModel customer = new CustomerModel(){
-                firstName = firstName,
-                lastName = lastName,
-                email = email
-            };
+        public void AddCustomer(CustomerModel customer){
+            
             repo.NewCustomerAsync(customer);
+            System.Threading.Thread.Sleep(5);
             
         }
 
