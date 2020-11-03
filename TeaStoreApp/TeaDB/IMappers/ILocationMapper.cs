@@ -7,8 +7,8 @@ namespace TeaDB.IMappers
     public interface ILocationMapper
     {
         Locations ParseLocation(LocationModel location);
-        //ICollection<Locations> ParseLocation(List<LocationModel> location);
+        ICollection<Locations> ParseLocation(List<LocationModel> location);
         LocationModel ParseLocation(Locations locations);
-        //List<LocationModel> ParseLocation(ICollection<Locations> locations);
+        List<LocationModel> ParseLocation(ICollection<Locations> locations);
     }
 }

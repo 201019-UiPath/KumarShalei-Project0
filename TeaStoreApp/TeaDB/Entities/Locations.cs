@@ -12,6 +12,7 @@ namespace TeaDB.Entities
 
         public int Locationid { get; set; }
         public string City { get; set; }
+        public string Stateacronym { get; set; }
 
         public virtual ICollection<Orders> Orders { get; set; }
     }

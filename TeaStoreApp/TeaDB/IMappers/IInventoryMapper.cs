@@ -8,7 +8,7 @@ namespace TeaDB.IMappers
     {
         Inventory ParseInventory(InventoryModel inventory);
         ICollection<Inventory> ParseInventory(List<InventoryModel> inventory);
-        InventoryModel ParseInventory(Inventory inventorys);
-        List<InventoryModel> ParseInventory(ICollection<Inventory> inventorys);
+        InventoryModel ParseInventory(Inventory inventory);
+        List<InventoryModel> ParseInventory(ICollection<Inventory> inventory);
     }
 }

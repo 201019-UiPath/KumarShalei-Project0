@@ -6,9 +6,9 @@ namespace TeaDB.IRepo
 {
     public interface ILocationRepo
     {
-        List<OrderModel> GetLocationOrderHistory(int x);
-        List<InventoryModel> GetLocationInventory(int x);
-
+        List<OrderModel> GetLocationOrderHistory(int id);
+        List<InventoryModel> GetLocationInventory(int id);
+        // ProductModel GetProductInfo(int id);
 
     }
 }

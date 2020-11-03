@@ -6,7 +6,7 @@ namespace TeaDB.Models
         public int id{get;set;}
         public int customerId{get;set;}
         public int locationId{get;set;}
+        public decimal totalPrice {get;set;}
         public bool complete{get;set;}
-        //public Dictionary<ProductModel, int> items {get;set;}
     }
 }

@@ -7,7 +7,8 @@ namespace TeaDB.Entities
     {
         public int Productid { get; set; }
         public string Productname { get; set; }
+        public int? Numberofteabags { get; set; }
         public decimal? Price { get; set; }
-        public string Funfact { get; set; }
+        public string Description { get; set; }
     }
 }

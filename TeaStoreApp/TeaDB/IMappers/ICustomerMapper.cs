@@ -7,8 +7,8 @@ namespace TeaDB.IMappers
     public interface ICustomerMapper
     {
         Customers ParseCustomer(CustomerModel customer);
-        //ICollection<Customers> ParseCustomer(List<CustomerModel> customer);
-        CustomerModel ParseCustomer(Customers customer);
-        //List<CustomerModel> ParseCustomer(ICollection<Customers> customer);
+        ICollection<Customers> ParseCustomer(List<CustomerModel> customer);
+        CustomerModel ParseCustomer(Customers customers);
+        List<CustomerModel> ParseCustomer(ICollection<Customers> customers);
     }
 }

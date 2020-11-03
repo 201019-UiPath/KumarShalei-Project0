@@ -20,7 +20,7 @@ namespace TeaDB.Entities
         public virtual DbSet<Customers> Customers { get; set; }
         public virtual DbSet<Inventory> Inventory { get; set; }
         public virtual DbSet<Locations> Locations { get; set; }
-        public virtual DbSet<Orderlist> Orderlist { get; set; }
+        public virtual DbSet<Orderitems> Orderitems { get; set; }
         public virtual DbSet<Orders> Orders { get; set; }
         public virtual DbSet<PgStatStatements> PgStatStatements { get; set; }
         public virtual DbSet<Products> Products { get; set; }
@@ -72,9 +72,18 @@ namespace TeaDB.Entities
 
                 entity.Property(e => e.Customerid).HasColumnName("customerid");
 
-                entity.Property(e => e.Customername)
+                entity.Property(e => e.Customeremail)
+                    .HasColumnName("customeremail")
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.Customerfirstname)
                     .IsRequired()
-                    .HasColumnName("customername")
+                    .HasColumnName("customerfirstname")
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.Customerlastname)
+                    .IsRequired()
+                    .HasColumnName("customerlastname")
                     .HasMaxLength(100);
             });
 
@@ -86,7 +95,7 @@ namespace TeaDB.Entities
 
                 entity.Property(e => e.Locationid).HasColumnName("locationid");
 
-                entity.Property(e => e.Product).HasColumnName("product");
+                entity.Property(e => e.Productid).HasColumnName("productid");
 
                 entity.Property(e => e.Stock).HasColumnName("stock");
 
@@ -95,10 +104,10 @@ namespace TeaDB.Entities
                     .HasForeignKey(d => d.Locationid)
                     .HasConstraintName("inventory_locationid_fkey");
 
-                entity.HasOne(d => d.ProductNavigation)
+                entity.HasOne(d => d.Product)
                     .WithMany()
-                    .HasForeignKey(d => d.Product)
-                    .HasConstraintName("inventory_product_fkey");
+                    .HasForeignKey(d => d.Productid)
+                    .HasConstraintName("inventory_productid_fkey");
             });
 
             modelBuilder.Entity<Locations>(entity =>
@@ -113,29 +122,37 @@ namespace TeaDB.Entities
                 entity.Property(e => e.City)
                     .HasColumnName("city")
                     .HasMaxLength(20);
+
+                entity.Property(e => e.Stateacronym)
+                    .HasColumnName("stateacronym")
+                    .HasMaxLength(2);
             });
 
-            modelBuilder.Entity<Orderlist>(entity =>
+            modelBuilder.Entity<Orderitems>(entity =>
             {
                 entity.HasNoKey();
 
-                entity.ToTable("orderlist");
+                entity.ToTable("orderitems");
 
                 entity.Property(e => e.Amount).HasColumnName("amount");
 
                 entity.Property(e => e.Orderid).HasColumnName("orderid");
 
-                entity.Property(e => e.Product).HasColumnName("product");
+                entity.Property(e => e.Productid).HasColumnName("productid");
+
+                entity.Property(e => e.Totalprice)
+                    .HasColumnName("totalprice")
+                    .HasColumnType("numeric(10,2)");
 
                 entity.HasOne(d => d.Order)
                     .WithMany()
                     .HasForeignKey(d => d.Orderid)
-                    .HasConstraintName("orderlist_orderid_fkey");
+                    .HasConstraintName("orderitems_orderid_fkey");
 
-                entity.HasOne(d => d.ProductNavigation)
+                entity.HasOne(d => d.Product)
                     .WithMany()
-                    .HasForeignKey(d => d.Product)
-                    .HasConstraintName("orderlist_product_fkey");
+                    .HasForeignKey(d => d.Productid)
+                    .HasConstraintName("orderitems_productid_fkey");
             });
 
             modelBuilder.Entity<Orders>(entity =>
@@ -152,6 +169,10 @@ namespace TeaDB.Entities
                 entity.Property(e => e.Locationid).HasColumnName("locationid");
 
                 entity.Property(e => e.Payed).HasColumnName("payed");
+
+                entity.Property(e => e.Totalprice)
+                    .HasColumnName("totalprice")
+                    .HasColumnType("numeric(10,2)");
 
                 entity.HasOne(d => d.Customer)
                     .WithMany(p => p.Orders)
@@ -230,10 +251,12 @@ namespace TeaDB.Entities
 
                 entity.Property(e => e.Productid).HasColumnName("productid");
 
-                entity.Property(e => e.Funfact)
+                entity.Property(e => e.Description)
                     .IsRequired()
-                    .HasColumnName("funfact")
-                    .HasMaxLength(100);
+                    .HasColumnName("description")
+                    .HasMaxLength(250);
+
+                entity.Property(e => e.Numberofteabags).HasColumnName("numberofteabags");
 
                 entity.Property(e => e.Price)
                     .HasColumnName("price")
@@ -242,9 +265,8 @@ namespace TeaDB.Entities
                 entity.Property(e => e.Productname)
                     .IsRequired()
                     .HasColumnName("productname")
-                    .HasMaxLength(100);
+                    .HasMaxLength(20);
             });
-
 
             OnModelCreatingPartial(modelBuilder);
         }

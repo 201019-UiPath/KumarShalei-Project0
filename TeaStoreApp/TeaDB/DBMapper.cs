@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using TeaDB.Entities;
 using TeaDB.Models;
@@ -10,43 +11,46 @@ namespace TeaDB
         public Customers ParseCustomer(CustomerModel customer)
         {
             return new Customers(){
-                Customername = customer.name
+                Customerfirstname = customer.firstName,
+                Customerlastname = customer.lastName,
+                Customeremail = customer.email
             };
         }
 
-        // public ICollection<Customers> ParseCustomer(List<CustomerModel> customer)
-        // {
-        //     ICollection<Customers> customers = new List<Customers>();
-        //     foreach (var c in customer){
-
-        //         customers.Add(ParseCustomer(c));
-        //     }
-        //     return customers;
-        // }
+        public ICollection<Customers> ParseCustomer(List<CustomerModel> customer)
+        {
+            ICollection<Customers> customers = new List<Customers>();
+            foreach (var c in customer){
+                customers.Add(ParseCustomer(c));
+            }
+            return customers;
+        }
 
         public CustomerModel ParseCustomer(Customers customer)
         {
             return new CustomerModel(){
                 id = customer.Customerid,
-                name = customer.Customername
+                firstName = customer.Customerfirstname,
+                lastName = customer.Customerlastname,
+                email = customer.Customeremail
             };
         }
 
-        // public List<CustomerModel> ParseCustomer(ICollection<Customers> customer)
-        // {
-        //     List<CustomerModel> customers = new List<CustomerModel>();
-        //     foreach (var c in customer){
-        //         customers.Add(ParseCustomer(c));
-        //     }
-        //     return customers;
-        // }
+        public List<CustomerModel> ParseCustomer(ICollection<Customers> customer)
+        {
+            List<CustomerModel> customers = new List<CustomerModel>();
+            foreach (var c in customer){
+                customers.Add(ParseCustomer(c));
+            }
+            return customers;
+        }
 
         public Inventory ParseInventory(InventoryModel inventory)
         {
             return new Inventory(){
-                Product = inventory.productId,
-                Stock = inventory.stock,
-                Locationid = inventory.locationId
+                Locationid = inventory.locationId,
+                Productid = inventory.productId,
+                Stock = inventory.stock
             };
         }
 
@@ -63,9 +67,9 @@ namespace TeaDB
         public InventoryModel ParseInventory(Inventory inventorys)
         {
             return new InventoryModel(){
-                productId = System.Convert.ToInt32(inventorys.Product),
-                stock = System.Convert.ToInt32(inventorys.Stock),
-                locationId = System.Convert.ToInt32(inventorys.Locationid)
+                locationId = Convert.ToInt32(inventorys.Locationid),
+                productId = Convert.ToInt32(inventorys.Productid),
+                stock = Convert.ToInt32(inventorys.Stock)
             };
         }
 
@@ -81,7 +85,8 @@ namespace TeaDB
         public Locations ParseLocation(LocationModel location)
         {
             return new Locations(){
-                City = location.city
+                City = location.city,
+                Stateacronym = location.state
             };
         }
 
@@ -99,7 +104,8 @@ namespace TeaDB
         {
             return new LocationModel(){
                 id = locations.Locationid,
-                city = locations.City
+                city = locations.City,
+                state = locations.Stateacronym
             };
         }
 
@@ -124,6 +130,7 @@ namespace TeaDB
             return new Orders(){
                 Customerid = order.customerId,
                 Locationid = order.locationId,
+                Totalprice = order.totalPrice,
                 Payed = order.complete
             };
         }
@@ -144,9 +151,11 @@ namespace TeaDB
         {
             return new OrderModel(){
                 id = orders.Orderid,
-                customerId = System.Convert.ToInt32(orders.Customerid),
-                locationId = System.Convert.ToInt32(orders.Locationid),
-                complete = System.Convert.ToBoolean(orders.Payed)
+                customerId = Convert.ToInt32(orders.Customerid),
+                locationId = Convert.ToInt32(orders.Locationid),
+                totalPrice = Convert.ToDecimal(orders.Totalprice),
+                complete = Convert.ToBoolean(orders.Payed)
+
             };
         }
 
@@ -168,39 +177,41 @@ namespace TeaDB
 
 
 
-        public Orderlist ParseOrderList(OrderListModel orderList)
+        public Orderitems ParseOrderItem(OrderItemModel orderItem)
         {
-            return new Orderlist(){
-                Orderid = orderList.orderId,
-                Product = orderList.productId,
-                Amount = orderList.amount
+            return new Orderitems(){
+                Orderid = orderItem.orderId,
+                Productid = orderItem.productId,
+                Amount = orderItem.amount,
+                Totalprice = orderItem.totalPrice
             };
         }
 
-        public ICollection<Orderlist> ParseOrderList(List<OrderListModel> orderList)
+        public ICollection<Orderitems> ParseOrderItem(List<OrderItemModel> orderItem)
         {
-            ICollection<Orderlist> orderlists = new List<Orderlist>();
-            foreach (var o in orderList){
+            ICollection<Orderitems> orderItems = new List<Orderitems>();
+            foreach (var o in orderItem){
 
-                orderlists.Add(ParseOrderList(o));
+                orderItems.Add(ParseOrderItem(o));
             }
-            return orderlists;
+            return orderItems;
         }
 
-        public OrderListModel ParseOrderList(Orderlist orderlist)
+        public OrderItemModel ParseOrderItem(Orderitems ordertimes)
         {
-            return new OrderListModel(){
-                orderId = System.Convert.ToInt32(orderlist.Orderid),
-                productId = System.Convert.ToInt32(orderlist.Product),
-                amount = System.Convert.ToInt32(orderlist.Amount)
+            return new OrderItemModel(){
+                orderId = Convert.ToInt32(ordertimes.Orderid),
+                productId = Convert.ToInt32(ordertimes.Productid),
+                amount = Convert.ToInt32(ordertimes.Amount),
+                totalPrice = Convert.ToDecimal(ordertimes.Totalprice)
             };
         }
 
-        public List<OrderListModel> ParseOrderList(ICollection<Orderlist> orderlist)
+        public List<OrderItemModel> ParseOrderItem(ICollection<Orderitems> orderlist)
         {
-            List<OrderListModel> orderlists = new List<OrderListModel>();
+            List<OrderItemModel> orderlists = new List<OrderItemModel>();
             foreach (var o in orderlist){
-                orderlists.Add(ParseOrderList(o));
+                orderlists.Add(ParseOrderItem(o));
             }
             return orderlists;
         }
@@ -209,8 +220,9 @@ namespace TeaDB
         {
             return new Products(){
                 Productname = product.name,
+                Numberofteabags = product.numberOfTeaBags,
                 Price = product.price,
-                Funfact = product.funfact
+                Description = product.description
             };
         }
 
@@ -229,8 +241,9 @@ namespace TeaDB
             return new ProductModel(){
                 id = products.Productid,
                 name = products.Productname,
-                price = System.Convert.ToDecimal(products.Price),
-                funfact = products.Funfact
+                numberOfTeaBags = Convert.ToInt32(products.Numberofteabags),
+                price = Convert.ToDecimal(products.Price),
+                description = products.Description
             };
         }
 

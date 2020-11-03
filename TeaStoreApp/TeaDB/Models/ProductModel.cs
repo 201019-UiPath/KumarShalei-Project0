@@ -4,7 +4,8 @@ namespace TeaDB.Models
     {
         public int id{get;set;}
         public string name{get;set;}
+        public int numberOfTeaBags{get;set;}
         public decimal price{get;set;}
-        public string funfact{get;set;}
+        public string description{get;set;}
     }
 }

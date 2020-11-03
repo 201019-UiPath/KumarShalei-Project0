@@ -8,6 +8,7 @@ namespace TeaDB.Entities
         public int Orderid { get; set; }
         public int? Customerid { get; set; }
         public int? Locationid { get; set; }
+        public decimal? Totalprice { get; set; }
         public bool? Payed { get; set; }
 
         public virtual Customers Customer { get; set; }
