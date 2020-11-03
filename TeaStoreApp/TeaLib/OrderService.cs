@@ -29,7 +29,7 @@ namespace TeaLib
             return repo.GetCurrentOrder(customerId,locationId);
         }
 
-        public void AddProductToOrderList(int orderid, int productid, int amount, decimal price){
+        public void AddProductToOrderItem(int orderid, int productid, int amount, decimal price){
             OrderItemModel order = new OrderItemModel(){
                 orderId = orderid,
                 productId = productid,

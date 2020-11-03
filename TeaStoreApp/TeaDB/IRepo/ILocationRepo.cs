@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using TeaDB.Models;
-using System.Threading.Tasks;
 
 namespace TeaDB.IRepo
 {
@@ -9,7 +8,6 @@ namespace TeaDB.IRepo
         LocationModel GetLocation(int id);
         List<OrderModel> GetLocationOrderHistory(int id);
         List<InventoryModel> GetLocationInventory(int id);
-        // ProductModel GetProductInfo(int id);
 
     }
 }

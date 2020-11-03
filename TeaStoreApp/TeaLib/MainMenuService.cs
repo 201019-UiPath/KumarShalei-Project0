@@ -7,12 +7,12 @@ using TeaDB.IRepo;
 namespace TeaLib
 {
     
-    public class CustomerService
+    public class MainMenuService
     {
 
 
         private DBRepo repo;
-        public CustomerService(){
+        public MainMenuService(){
             this.repo = new DBRepo();
         }
 
@@ -29,6 +29,14 @@ namespace TeaLib
 
         public List<OrderModel> GetOrderHistory(CustomerModel customer){
             return repo.GetOrderHistory(customer);
+        }
+
+        public List<OrderModel> GetOrderHistoryByLeastExpensive(CustomerModel customer){
+            return repo.GetOrderHistoryByLeastExpensive(customer);
+        }
+
+        public List<OrderModel> GetOrderHistoryByMostExpensive(CustomerModel customer){
+            return repo.GetOrderHistoryByMostExpensive(customer);
         }
 
     }

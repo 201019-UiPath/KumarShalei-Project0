@@ -6,7 +6,6 @@ namespace TeaDB.IRepo
     public interface IOrderRepo
     {
         void NewOrder(OrderModel order);
-        //OrderModel OldOrder(int customerId, int locationId);
         void AddProductToOrderItem(OrderItemModel order);
         void DeleteProductFromOrderItem(int orderid, int productid);
 

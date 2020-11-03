@@ -1,9 +1,9 @@
-using TeaDB;
 using System.Collections.Generic;
 using System;
 using TeaDB.Models;
 using TeaLib;
 using System.Linq;
+using Serilog;
 
 
 
@@ -11,12 +11,12 @@ namespace TeaUI.Menus
 {
     public class BasketMenu
     {
-        private  CustomerService customerService;
+        private  MainMenuService customerService;
 
         private OrderService orderService;
         private LocationService locationService;
         public CustomerModel customer;
-        public int locationid;
+        public LocationModel location;
         public int orderid;
 
         private List<OrderItemModel> products;
@@ -25,10 +25,10 @@ namespace TeaUI.Menus
         public BasketMenu(CustomerModel customer, int locationid, int orderid){
             this.locationService  = new LocationService();
             this.orderService = new OrderService();
-            this.customerService = new CustomerService();
+            this.customerService = new MainMenuService();
 
             this.customer = customer;
-            this.locationid = locationid;
+            this.location = locationService.GetLocation(locationid);
             this.orderid = orderid;
             this.products = orderService.GetItemsInBasket(orderid);
         }
@@ -53,8 +53,9 @@ namespace TeaUI.Menus
                         break;
                     case "1":
                         System.Console.WriteLine("Place Order");
-                        OrderModel order = orderService.GetCurrentOrder(customer.id, locationid);
+                        OrderModel order = orderService.GetCurrentOrder(customer.id, location.id);
                         orderService.PlaceOrder(order);
+                        Log.Information($"Order Has been placed at {location.id}");
                         break;
                     case "2":
                         System.Console.WriteLine("Go Back");

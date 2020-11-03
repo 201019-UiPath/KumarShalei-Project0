@@ -10,7 +10,7 @@ using System;
 
 namespace TeaDB
 {
-    public class DBRepo : ICustomerRepo, IManagerRepo, ILocationRepo, IOrderRepo
+    public class DBRepo : IMainMenuRepo, IManagerRepo, ILocationRepo, IOrderRepo
 
     {
         private readonly TeaContext context;
@@ -43,6 +43,36 @@ namespace TeaDB
                 return mapper.ParseOrder(
                     context.Orders
                     .Where(c => c.Customerid == customer.id && c.Payed == true)
+                    .ToList()
+                );
+            }
+            catch (System.InvalidOperationException){
+                return null;
+            }
+        }
+
+        public List<OrderModel> GetOrderHistoryByMostExpensive(CustomerModel customer){
+        
+            try{
+                return mapper.ParseOrder(
+                    context.Orders
+                    .Where(c => c.Customerid == customer.id && c.Payed == true)
+                    .OrderByDescending(c => c.Totalprice)
+                    .ToList()
+                );
+            }
+            catch (System.InvalidOperationException){
+                return null;
+            }
+        }
+
+
+        public List<OrderModel> GetOrderHistoryByLeastExpensive(CustomerModel customer){
+            try{
+                return mapper.ParseOrder(
+                    context.Orders
+                    .Where(c => c.Customerid == customer.id && c.Payed == true)
+                    .OrderBy(c => c.Totalprice)
                     .ToList()
                 );
             }
