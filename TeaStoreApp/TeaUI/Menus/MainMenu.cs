@@ -112,22 +112,36 @@ namespace TeaUI.Menus
 
 
         public void startMethod(){
-            System.Console.WriteLine("Welcome to *insert name \n Are you a returning Customer? [Y/N]");
-            string oldCustomer = @"[YyNn]";
-            try{
-                oldCustomer = System.Console.ReadLine().ToLower();
-                if(oldCustomer == "n"){
-                        customer = NewCustomer();
-                        Log.Information("New Customer has been Added");
-                } else {                      
+            System.Console.WriteLine("Welcome to *insert name ");
+            string oldCustomer = @"[YyNn]{1}";
+            while(true){
+                try{
+                    System.Console.WriteLine("Are you a returning Customer? [Y/N]");
                     
-                    customer = OldCustomer();     
+                    oldCustomer = System.Console.ReadLine().ToLower();
+                    break;
+                    
+                } catch (InvalidOperationException){
+                    System.Console.WriteLine("Please enter a valid input");
                 }
-                
-            } catch (InvalidOperationException){
-                System.Console.WriteLine("Please enter a valid input");
             }
+           
+            if(oldCustomer == "n"){
+                customer = NewCustomer();
+                Log.Information("New Customer has been Added");
+                           
+            } else {                      
+                        
+                customer = OldCustomer();    
+                        
+            }
+                
+                
         }
+
+
+
+        
         
 
 

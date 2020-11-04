@@ -6,6 +6,9 @@ using TeaDB.IMappers;
 
 namespace TeaDB
 {
+    /// <summary>
+    /// Mapping Entities to Models and vice versa
+    /// </summary>
     public class DBMapper : IMapper
     {
         public Customers ParseCustomer(CustomerModel customer)

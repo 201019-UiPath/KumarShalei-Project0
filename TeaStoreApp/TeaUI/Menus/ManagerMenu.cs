@@ -2,6 +2,7 @@ using System;
 using TeaDB.Models;
 using TeaLib;
 using System.Collections.Generic;
+using Serilog;
 
 namespace TeaUI.Menus
 {
@@ -27,7 +28,7 @@ namespace TeaUI.Menus
                 input = Convert.ToInt32(System.Console.ReadLine());
                 List<InventoryModel> invetory = locationService.GetLocationInventory(input);
                 foreach(var i in invetory){
-                    System.Console.WriteLine($"{i.productId} {i.stock}");
+                    System.Console.WriteLine($"{i.productId} {orderService.GetProduct(i.productId).name} {i.stock}");
                 }
                 System.Console.WriteLine("Would you like to restock? [Y/N]" );
                 string restock = System.Console.ReadLine();
@@ -37,7 +38,8 @@ namespace TeaUI.Menus
                     System.Console.WriteLine("Enter amount: ");
                     int amount = Convert.ToInt32(System.Console.ReadLine());
                     managerService.ReplenishStock(input, productid, amount);
-
+                    Log.Information($"Added {amount} to {productid} at location {input}");
+                    invetory = locationService.GetLocationInventory(input);
                 }
 
                 System.Console.WriteLine("Would you like to look at order History? [Y/N]" );

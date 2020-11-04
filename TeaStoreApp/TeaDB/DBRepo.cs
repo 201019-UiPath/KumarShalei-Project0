@@ -10,11 +10,14 @@ using System;
 
 namespace TeaDB
 {
+    /// <summary>
+    /// Data Access Logic
+    /// </summary>
     public class DBRepo : IMainMenuRepo, IManagerRepo, ILocationRepo, IOrderRepo
 
     {
-        private readonly TeaContext context;
-        private readonly IMapper mapper; 
+        public  TeaContext context {get;set;}
+        public  IMapper mapper {get;set;}
         public DBRepo(){
             this.context = new TeaContext();
             this.mapper = new DBMapper();
