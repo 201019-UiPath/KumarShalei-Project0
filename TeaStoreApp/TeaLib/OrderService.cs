@@ -78,5 +78,16 @@ namespace TeaLib
             return repo.GetOrderItems(orderid);
         }
         
+        public List<OrderModel> GetOrderHistory(CustomerModel customer){
+            return repo.GetOrderHistory(customer);
+        }
+
+        public List<OrderModel> GetOrderHistoryByLeastExpensive(CustomerModel customer){
+            return repo.GetOrderHistoryByLeastExpensive(customer);
+        }
+
+        public List<OrderModel> GetOrderHistoryByMostExpensive(CustomerModel customer){
+            return repo.GetOrderHistoryByMostExpensive(customer);
+        }
     }
 }

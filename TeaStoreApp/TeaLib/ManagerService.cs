@@ -27,6 +27,10 @@ namespace TeaLib
         public List<OrderModel> GetOrderHistoryLocationByLeastExpensive(int locationid){
             return repo.GetOrderHistoryLocationByLeastExpensive(locationid);
         }
+
+        public List<OrderModel> GetLocationOrderHistory(int x){
+            return repo.GetLocationOrderHistory(x);
+        }
     }
 
 }

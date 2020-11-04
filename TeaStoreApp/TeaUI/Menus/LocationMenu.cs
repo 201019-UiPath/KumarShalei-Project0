@@ -12,13 +12,13 @@ namespace TeaUI.Menus
         private CustomerModel customer;
         private List<InventoryModel> inventory;
         
-        private MainMenuService mainMenuService;
+        // private MainMenuService mainMenuService;
         private OrderService orderService;
         private LocationService locationService;
 
         
         public LocationMenu(int locationId, CustomerModel customer){
-            this.mainMenuService = new MainMenuService();
+            // this.mainMenuService = new MainMenuService();
             this.orderService = new OrderService();
             this.locationService = new LocationService();
 
@@ -56,13 +56,13 @@ namespace TeaUI.Menus
                             System.Console.WriteLine("Would you like to sort: \n [1] Least to Most Expensive \n [2] Most to least Expensive \n Enter Number [1/2]:");
                             orderBy = System.Console.ReadLine();
                             if(orderBy == "1"){
-                                pastPurchases = mainMenuService.GetOrderHistoryByMostExpensive(customer);
+                                pastPurchases = orderService.GetOrderHistoryByMostExpensive(customer);
                             } else {
-                                pastPurchases = mainMenuService.GetOrderHistoryByLeastExpensive(customer);
+                                pastPurchases = orderService.GetOrderHistoryByLeastExpensive(customer);
                             }
                             
                         } else {
-                            pastPurchases = mainMenuService.GetOrderHistory(customer);
+                            pastPurchases = orderService.GetOrderHistory(customer);
                         }
 
                         

@@ -6,28 +6,18 @@ namespace TeaDB.IRepo
     public interface IOrderRepo
     {
         void NewOrder(OrderModel order);
+        void DeleteOrder(int orderid);
         void AddProductToOrderItem(OrderItemModel order);
         void DeleteProductFromOrderItem(int orderid, int productid);
-
-
-        void DecreaseStock(int locationid, int productid, int stock);
-        void DeleteOrder(int orderid);
+        List<OrderItemModel> GetItemsInBasket(int orderid);
+        ProductModel GetProduct(int productid);
         void PlaceOrder(OrderModel order);
         int GetOrderId(CustomerModel customerid, int locationId);
-
-        void ChangeOrderTotalPrice(int orderid, decimal amount);
-    
         OrderModel GetCurrentOrder(int customerid, int locationid);
-        
-        List<OrderItemModel> GetItemsInBasket(int orderid);
-
-        ProductModel GetProduct(int productid);
-
-
+        void ChangeOrderTotalPrice(int orderid, decimal amount);
+        void DecreaseStock(int locationid, int productid, int stock);
         List<OrderModel> GetOrderHistoryByMostExpensive(CustomerModel customer);
         List<OrderModel> GetOrderHistoryByLeastExpensive(CustomerModel customer);
-
-        //int GetOrderItemid(int orderid, int productid);
         
     }
 }
