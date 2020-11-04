@@ -18,9 +18,10 @@ namespace TeaTest
         private DBRepo repo;
 
         private readonly CustomerModel testCustomer = new CustomerModel(){
-            firstName = "Sahaj",
-            lastName = "Kumar",
-            email = "skum@yahoo.com"
+            id = 1,
+            firstName = "Customer",
+            lastName = "Test",
+            email = "test@yahoo.com"
         };
 
         private readonly Customers testCustomer2 = new Customers(){
@@ -37,11 +38,26 @@ namespace TeaTest
             complete = false
         };
 
+        private readonly Orders testOrder2 = new Orders(){
+            Customerid = 1,
+            Locationid = 1,
+            Totalprice = Convert.ToDecimal(4.99),
+            Payed = false
+        };
+
         private readonly OrderItemModel testOrderItem = new OrderItemModel(){
-            orderId = 10,
+            orderId = 1,
             productId = 1,
             amount = 1,
             totalPrice = Convert.ToDecimal(5.99)
+        };
+
+        private readonly Orderitems testOrderItem2 = new Orderitems(){
+            Orderitemsid = 1,
+            Orderid = 1,
+            Productid = 1,
+            Amount = 1,
+            Totalprice = Convert.ToDecimal(5.99)
         };
 
         private readonly Products testProduct = new Products(){
@@ -51,10 +67,20 @@ namespace TeaTest
             Price = Convert.ToDecimal(5.99),
             Description = "this is a test"
         };
+
+        private readonly Locations testLocation = new Locations(){
+            Locationid = 1,
+            City = "tests",
+            Stateacronym = "TT"
+        };
+
         private void Seed(TeaContext testcontext)
         {
             testcontext.Products.AddRange(testProduct);
             testcontext.Customers.AddRange(testCustomer2);
+            testcontext.Locations.AddRange(testLocation);
+            testcontext.Orders.AddRange(testOrder2);
+            testcontext.Orderitems.AddRange(testOrderItem2);
             testcontext.SaveChanges();
         }
 
@@ -161,8 +187,106 @@ namespace TeaTest
             Assert.Equal(result.email, testCustomer2.Customeremail);
         }
        
-        
+        [Fact]
 
+        public void GetLocationShouldGetLocation()
+        {
+            
+            var options = new DbContextOptionsBuilder<TeaContext>().UseInMemoryDatabase("GetLocationShouldGetLocation").Options;
+            using var testContext = new TeaContext(options);
+            repo = new DBRepo(){
+                context = testContext,
+                mapper = mapper
+            };
+            Seed(testContext);
+            //Act
+            var result = repo.GetLocation(1);
+
+            //Assert
+            using var assertContext = new TeaContext(options);
+            Assert.Equal(result.id, testLocation.Locationid);
+        }
+
+        [Fact]
+        public void GetCurrentOrderShouldGetCurrentOrder()
+        {
+            
+            var options = new DbContextOptionsBuilder<TeaContext>().UseInMemoryDatabase("GetCurrentOrderShouldGetCurrentOrder").Options;
+            using var testContext = new TeaContext(options);
+            repo = new DBRepo(){
+                context = testContext,
+                mapper = mapper
+            };
+            Seed(testContext);
+            //Act
+            var result = repo.GetCurrentOrder(1,1);
+
+            //Assert
+            using var assertContext = new TeaContext(options);
+            Assert.Equal(result.id, testOrder2.Orderid);
+        }
+
+
+
+        [Fact]
+        public void GetOrderIdShouldGetOrderId()
+        {
+            
+            var options = new DbContextOptionsBuilder<TeaContext>().UseInMemoryDatabase("GetOrderIdShouldGetOrderId").Options;
+            using var testContext = new TeaContext(options);
+            repo = new DBRepo(){
+                context = testContext,
+                mapper = mapper
+            };
+            Seed(testContext);
+            //Act
+            var result = repo.GetOrderId(testCustomer,1);
+
+            //Assert
+            using var assertContext = new TeaContext(options);
+            Assert.Equal(result, testCustomer.id);
+        }
+
+
+        [Fact]
+        public void GetItemsInBasketShouldGetItemsInBasket()
+        {
+            
+            var options = new DbContextOptionsBuilder<TeaContext>().UseInMemoryDatabase("GetItemsInBasketShouldGetItemsInBasket").Options;
+            using var testContext = new TeaContext(options);
+            repo = new DBRepo(){
+                context = testContext,
+                mapper = mapper
+            };
+            Seed(testContext);
+            //Act
+            var result = repo.GetItemsInBasket(1);
+
+            //Assert
+            using var assertContext = new TeaContext(options);
+            Assert.Equal(result.Count, 1);
+        }
+
+
+
+        [Fact]
+        public void DeleteOrderShouldDeleteOrder()
+        {
+            
+            var options = new DbContextOptionsBuilder<TeaContext>().UseInMemoryDatabase("DeleteItemShouldDeleteItem").Options;
+            using var testContext = new TeaContext(options);
+            repo = new DBRepo(){
+                context = testContext,
+                mapper = mapper
+            };
+            Seed(testContext);
+            //Act
+            repo.DeleteOrder(1);
+
+            //Assert
+            using var assertContext = new TeaContext(options);
+            Assert.Throws<InvalidOperationException>(() => assertContext.Orders.First(h => h.Orderid == 1));
+        }
         
     }
 }
