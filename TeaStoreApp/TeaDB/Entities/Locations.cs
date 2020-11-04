@@ -7,6 +7,7 @@ namespace TeaDB.Entities
     {
         public Locations()
         {
+            Inventory = new HashSet<Inventory>();
             Orders = new HashSet<Orders>();
         }
 
@@ -14,6 +15,7 @@ namespace TeaDB.Entities
         public string City { get; set; }
         public string Stateacronym { get; set; }
 
+        public virtual ICollection<Inventory> Inventory { get; set; }
         public virtual ICollection<Orders> Orders { get; set; }
     }
 }

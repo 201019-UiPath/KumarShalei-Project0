@@ -1,0 +1,4 @@
+2020-11-03 15:06:44.249 -05:00 [INF] Order Has been placed at 3
+2020-11-03 15:28:50.206 -05:00 [INF] Order Has been placed at 1
+2020-11-03 16:40:21.060 -05:00 [INF] Order Has been placed at 2
+2020-11-03 16:52:19.145 -05:00 [INF] Order Has been placed at 3

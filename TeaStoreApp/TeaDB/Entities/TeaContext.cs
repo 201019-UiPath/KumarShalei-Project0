@@ -1,7 +1,7 @@
 ﻿using System;
-using System.IO;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using System.IO;
 using Microsoft.Extensions.Configuration;
 
 namespace TeaDB.Entities
@@ -24,7 +24,6 @@ namespace TeaDB.Entities
         public virtual DbSet<Orders> Orders { get; set; }
         public virtual DbSet<PgStatStatements> PgStatStatements { get; set; }
         public virtual DbSet<Products> Products { get; set; }
-        
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -90,9 +89,9 @@ namespace TeaDB.Entities
 
             modelBuilder.Entity<Inventory>(entity =>
             {
-                entity.HasNoKey();
-
                 entity.ToTable("inventory");
+
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Locationid).HasColumnName("locationid");
 
@@ -101,12 +100,12 @@ namespace TeaDB.Entities
                 entity.Property(e => e.Stock).HasColumnName("stock");
 
                 entity.HasOne(d => d.Location)
-                    .WithMany()
+                    .WithMany(p => p.Inventory)
                     .HasForeignKey(d => d.Locationid)
                     .HasConstraintName("inventory_locationid_fkey");
 
                 entity.HasOne(d => d.Product)
-                    .WithMany()
+                    .WithMany(p => p.Inventory)
                     .HasForeignKey(d => d.Productid)
                     .HasConstraintName("inventory_productid_fkey");
             });
@@ -269,7 +268,8 @@ namespace TeaDB.Entities
                     .HasMaxLength(20);
             });
 
-           
+            
+
             OnModelCreatingPartial(modelBuilder);
         }
 

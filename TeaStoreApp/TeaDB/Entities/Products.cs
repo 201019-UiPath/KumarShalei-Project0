@@ -7,6 +7,7 @@ namespace TeaDB.Entities
     {
         public Products()
         {
+            Inventory = new HashSet<Inventory>();
             Orderitems = new HashSet<Orderitems>();
         }
 
@@ -16,6 +17,7 @@ namespace TeaDB.Entities
         public decimal? Price { get; set; }
         public string Description { get; set; }
 
+        public virtual ICollection<Inventory> Inventory { get; set; }
         public virtual ICollection<Orderitems> Orderitems { get; set; }
     }
 }

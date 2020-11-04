@@ -62,13 +62,8 @@ namespace TeaLib
         }
 
 
-        // public ProductModel GetProductFunFact(int id){
-        //     return repo.GetProductFunFact(id);
-        // }
-
-
-        public void DecreaseStock(InventoryModel inventory, int productid, int stock){
-            repo.DecreaseStock(inventory, productid, stock);
+        public void DecreaseStock(int locationid, int productid, int stock){
+            repo.DecreaseStock(locationid, productid, stock);
         }
 
         public void ChangeOrderTotalPrice(int orderid, decimal amount){

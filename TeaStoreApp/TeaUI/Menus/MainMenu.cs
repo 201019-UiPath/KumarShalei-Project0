@@ -51,7 +51,9 @@ namespace TeaUI.Menus
                         case 3:
                             System.Console.WriteLine("GoodBye!");
                             break;
-
+                        default:
+                            System.Console.WriteLine("Please enter valid input");
+                            break;
                     }
                 } while(userInput!=3);
             }
@@ -111,16 +113,22 @@ namespace TeaUI.Menus
 
         public void startMethod(){
             System.Console.WriteLine("Welcome to *insert name \n Are you a returning Customer? [Y/N]");
-                string oldCustomer = System.Console.ReadLine();
-                if (oldCustomer.ToLower() == "n"){
-                    customer = NewCustomer();
-                    Log.Information("New Customer has been Added");
-                }else{
-                    customer = OldCustomer();
+            string oldCustomer = @"[YyNn]";
+            try{
+                oldCustomer = System.Console.ReadLine().ToLower();
+                if(oldCustomer == "n"){
+                        customer = NewCustomer();
+                        Log.Information("New Customer has been Added");
+                } else {                      
+                    
+                    customer = OldCustomer();     
+                }
                 
-                
+            } catch (InvalidOperationException){
+                System.Console.WriteLine("Please enter a valid input");
             }
         }
+        
 
 
 

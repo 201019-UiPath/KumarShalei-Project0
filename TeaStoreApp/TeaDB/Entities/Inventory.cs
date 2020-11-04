@@ -5,6 +5,7 @@ namespace TeaDB.Entities
 {
     public partial class Inventory
     {
+        public int Id { get; set; }
         public int? Locationid { get; set; }
         public int? Productid { get; set; }
         public int? Stock { get; set; }

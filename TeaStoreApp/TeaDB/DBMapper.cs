@@ -67,6 +67,7 @@ namespace TeaDB
         public InventoryModel ParseInventory(Inventory inventorys)
         {
             return new InventoryModel(){
+                id = inventorys.Id,
                 locationId = Convert.ToInt32(inventorys.Locationid),
                 productId = Convert.ToInt32(inventorys.Productid),
                 stock = Convert.ToInt32(inventorys.Stock)

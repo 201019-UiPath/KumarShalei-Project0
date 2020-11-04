@@ -10,7 +10,7 @@ namespace TeaDB.IRepo
         void DeleteProductFromOrderItem(int orderid, int productid);
 
 
-        void DecreaseStock(InventoryModel inventory, int productid, int stock);
+        void DecreaseStock(int locationid, int productid, int stock);
         void DeleteOrder(int orderid);
         void PlaceOrder(OrderModel order);
         int GetOrderId(CustomerModel customerid, int locationId);
@@ -22,6 +22,10 @@ namespace TeaDB.IRepo
         List<OrderItemModel> GetItemsInBasket(int orderid);
 
         ProductModel GetProduct(int productid);
+
+
+        List<OrderModel> GetOrderHistoryByMostExpensive(CustomerModel customer);
+        List<OrderModel> GetOrderHistoryByLeastExpensive(CustomerModel customer);
 
         //int GetOrderItemid(int orderid, int productid);
         

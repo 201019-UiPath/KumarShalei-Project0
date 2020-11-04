@@ -92,10 +92,10 @@ namespace TeaDB
        
             
 
-        public void ReplenishStock(InventoryModel inventory, int amount)
+        public void ReplenishStock(int locationid, int productid, int amount)
         {
             
-            context.Inventory.First(i => i == mapper.ParseInventory(inventory)).Stock += amount;
+            context.Inventory.First(i => i.Locationid == locationid && i.Productid==productid).Stock += amount;
            
             context.SaveChanges();           
         }
@@ -126,6 +126,7 @@ namespace TeaDB
             return mapper.ParseInventory(
                 context.Inventory
                 .Where(i => i.Locationid == x)
+                .OrderBy(i => i.Productid)
                 .ToList()
             );
         }
@@ -150,9 +151,10 @@ namespace TeaDB
             );
         }
 
-        public void DecreaseStock(InventoryModel inventory, int productid, int stock){
+        public void DecreaseStock(int locationid, int productid, int stock){
             
-            context.Inventory.First(i => i.Productid == productid).Stock -=stock;
+            var inventory = context.Inventory.First(i => i.Locationid == locationid && i.Productid == productid);
+            inventory.Stock = inventory.Stock -stock;
             context.SaveChanges();
         }
 
@@ -240,7 +242,29 @@ namespace TeaDB
        
         
 
+        public List<OrderModel> GetOrderHistoryLocationByMostExpensive(int locationid){
+            return mapper.ParseOrder(
+                context.Orders
+                .Where(o => o.Locationid == locationid)
+                .OrderBy(o => o.Totalprice)
+                .ToList()
+            );
 
+        }
+        public List<OrderModel> GetOrderHistoryLocationByLeastExpensive(int locationid){
+            try{
+                return mapper.ParseOrder(
+                    context.Orders
+                    .Where(o => o.Locationid == locationid)
+                    .OrderByDescending(o => o.Totalprice)
+                    .ToList()
+                );
+            }
+            catch(NullReferenceException){
+                return null;
+            }
+        }
+    
 
     }
 }

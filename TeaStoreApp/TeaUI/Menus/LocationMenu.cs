@@ -12,30 +12,25 @@ namespace TeaUI.Menus
         private CustomerModel customer;
         private List<InventoryModel> inventory;
         
-        private MainMenuService customerService;
+        private MainMenuService mainMenuService;
         private OrderService orderService;
         private LocationService locationService;
 
         
         public LocationMenu(int locationId, CustomerModel customer){
-            this.customerService = new MainMenuService();
+            this.mainMenuService = new MainMenuService();
             this.orderService = new OrderService();
             this.locationService = new LocationService();
 
             this.location = locationService.GetLocation(locationId);
             this.customer = customer;
-            this.inventory = locationService.GetLocationInventory(locationId);
+            // this.inventory = locationService.GetLocationInventory(locationId);
         }
 
         public void Start(){
             do{
                 Console.WriteLine($"Welcome to our {location.city} Location!");
-                System.Console.WriteLine("Available Products are:");
-                System.Console.WriteLine("[ProductID]  [Product Name] [Stock]");
-                foreach(var i in inventory){
-                    System.Console.WriteLine($"{i.productId}          {orderService.GetProduct(i.productId).name} {i.stock}");
-
-                }
+                
                 Options();
                 int orderid;
                 string sortByCost = @"[YyNn]";
@@ -44,21 +39,33 @@ namespace TeaUI.Menus
                 
                 switch(input){
                     case "1":
+                        System.Console.WriteLine("Available Products are:");
+                        System.Console.WriteLine("[ProductID]  [Product Name] [Stock]");
+                        inventory = locationService.GetLocationInventory(location.id);
+                        foreach(var i in inventory){
+                            System.Console.WriteLine($"{i.productId} {orderService.GetProduct(i.productId).name}   {i.stock}");
+
+                        }
+                        break;
+                    case "2":
                         System.Console.WriteLine("Look at past Purchases");
                         System.Console.WriteLine("Would you like to sort by cost? [Y/N]");
                         sortByCost = System.Console.ReadLine();
                         List<OrderModel> pastPurchases;
-                        if(sortByCost.ToLower() == "n"){
-                            pastPurchases = customerService.GetOrderHistory(customer);
-                        } else {
+                        if(sortByCost.ToLower() == "y"){
                             System.Console.WriteLine("Would you like to sort: \n [1] Least to Most Expensive \n [2] Most to least Expensive \n Enter Number [1/2]:");
                             orderBy = System.Console.ReadLine();
                             if(orderBy == "1"){
-                                pastPurchases = customerService.GetOrderHistoryByMostExpensive(customer);
+                                pastPurchases = mainMenuService.GetOrderHistoryByMostExpensive(customer);
                             } else {
-                                pastPurchases = customerService.GetOrderHistoryByLeastExpensive(customer);
+                                pastPurchases = mainMenuService.GetOrderHistoryByLeastExpensive(customer);
                             }
+                            
+                        } else {
+                            pastPurchases = mainMenuService.GetOrderHistory(customer);
                         }
+
+                        
                         if(pastPurchases == null){
                             System.Console.WriteLine("You have no past purchases");
                         } else {
@@ -70,7 +77,7 @@ namespace TeaUI.Menus
                             }
                          }
                         break;
-                    case "2":
+                    case "3":
                         System.Console.WriteLine("Adding to basket");
                         orderid = orderService.GetOrderId(customer,location.id);
                         if(orderid == -1){
@@ -79,7 +86,7 @@ namespace TeaUI.Menus
                             OldOrder(orderid);
                         }                        
                         break;
-                    case "3":
+                    case "4":
                         System.Console.WriteLine("ViewingBasket");
                         orderid = orderService.GetOrderId(customer,location.id);
                         if(orderid == -1){
@@ -89,20 +96,24 @@ namespace TeaUI.Menus
                             basketMenu.Start();
                         }
                         break;
-                    case "4":
+                    case "5":
                         System.Console.WriteLine("Switching Location");
+                        break;
+                    default:
+                        System.Console.WriteLine("Please enter a valid input");
                         break;
 
                 }
-            }while(input!="4");
+            }while(input!="5");
         }
         
 
         public void Options(){
-            System.Console.WriteLine("[1] Look at your past Purchases");
-            System.Console.WriteLine("[2] Add an item to Basket");
-            System.Console.WriteLine("[3] look at basket");
-            System.Console.WriteLine("[4] switch Location");
+            System.Console.WriteLine("[1] Look at Products");
+            System.Console.WriteLine("[2] Look at your past Purchases");
+            System.Console.WriteLine("[3] Add an item to Basket");
+            System.Console.WriteLine("[4] look at basket");
+            System.Console.WriteLine("[5] switch Location");
         }
 
         public void NewOrder(){
@@ -116,9 +127,9 @@ namespace TeaUI.Menus
             orderService.NewOrder(customer.id, location.id, (product.price*amount));
             int id = orderService.GetOrderId(customer, location.id);
             orderService.AddProductToOrderItem(id, product.id, amount,(product.price*amount));
-            InventoryModel inventoryModel = inventory.Where(i => i.productId == product.id && i.locationId == location.id).FirstOrDefault(); 
-            orderService.DecreaseStock(inventoryModel, product.id,amount);
-            inventory = locationService.GetLocationInventory(location.id);
+        
+            orderService.DecreaseStock(location.id, product.id,amount);
+            
             
         }
 
@@ -133,9 +144,8 @@ namespace TeaUI.Menus
             OrderModel order = orderService.GetCurrentOrder(customer.id, location.id);
             orderService.AddProductToOrderItem(orderid, product.id, amount,(product.price*amount));
             orderService.ChangeOrderTotalPrice(orderid,  (product.price*amount));
-            InventoryModel inventoryModel = inventory.Where(i => i.productId == product.id).FirstOrDefault(); 
-            orderService.DecreaseStock(inventoryModel, product.id,amount);
-            inventory = locationService.GetLocationInventory(location.id);
+            orderService.DecreaseStock(location.id, product.id,amount);
+            
         }
 
     }

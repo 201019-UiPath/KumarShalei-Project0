@@ -16,14 +16,17 @@ namespace TeaLib
             this.repo = new DBRepo();
         }
 
-        public void ReplenishStock(int locationid, int productid, int stock, int amount){
-            InventoryModel inventory = new InventoryModel(){
-                locationId = locationid,
-                productId = productid,
-                stock = stock
-            };
-            repo.ReplenishStock(inventory,amount);
+        public void ReplenishStock(int locationid, int productid,int amount){
+            repo.ReplenishStock(locationid, productid, amount);
         }
 
+        public List<OrderModel> GetOrderHistoryLocationByMostExpensive(int locationid){
+            return repo.GetOrderHistoryLocationByMostExpensive(locationid);
+
+        }
+        public List<OrderModel> GetOrderHistoryLocationByLeastExpensive(int locationid){
+            return repo.GetOrderHistoryLocationByLeastExpensive(locationid);
+        }
     }
+
 }

@@ -36,14 +36,18 @@ namespace TeaUI.Menus
         public void Start(){
 
             
+            
+            
             string input;
-            Console.WriteLine("Your Basket");
-            foreach(var p in products){
-                System.Console.WriteLine($"{orderService.GetProduct(p.productId).name} {p.amount}");
-            }
-            
-            
             do{
+
+                
+                Console.WriteLine("Your Basket");
+                System.Console.WriteLine("[ID] [Product Name] [Amount]");
+                foreach(var p in products){
+                    System.Console.WriteLine($"{p.productId} {orderService.GetProduct(p.productId).name} {p.amount}");
+                }
+
                 Options();
                 input = System.Console.ReadLine();
                 
@@ -60,7 +64,9 @@ namespace TeaUI.Menus
                     case "2":
                         System.Console.WriteLine("Go Back");
                         break;
-
+                    default:
+                        System.Console.WriteLine("Please put enter valid input");
+                        break;
                 }
             }while(input!="2");
         }
@@ -79,8 +85,8 @@ namespace TeaUI.Menus
             products.Remove(item);
             orderService.DeleteProductFromOrderItem(orderid, id);
             decimal dec = (item.totalPrice) * (-1);
-            
-            if(products == null){
+            orderService.DecreaseStock(location.id, item.productId, (item.amount*-1));
+            if(!products.Any()){
                 System.Console.WriteLine("Basket is Empty");
                 orderService.DeleteOrder(orderid);
             } else {
