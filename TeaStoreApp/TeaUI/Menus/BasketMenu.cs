@@ -9,6 +9,9 @@ using Serilog;
 
 namespace TeaUI.Menus
 {
+    /// <summary>
+    /// Customer can remove items are place order
+    /// </summary>
     public class BasketMenu
     {
         private  MainMenuService customerService;
@@ -43,9 +46,9 @@ namespace TeaUI.Menus
 
                 
                 Console.WriteLine("Your Basket");
-                System.Console.WriteLine("[ID] [Product Name] [Amount]");
+                System.Console.WriteLine("[ID] [Product Name] [Price] [Amount]");
                 foreach(var p in products){
-                    System.Console.WriteLine($"{p.productId} {orderService.GetProduct(p.productId).name} {p.amount}");
+                    System.Console.WriteLine($"{p.productId} {orderService.GetProduct(p.productId).name} {orderService.GetProduct(p.productId).name} {p.amount}");
                 }
 
                 Options();
@@ -56,7 +59,6 @@ namespace TeaUI.Menus
                         DeleteItem();
                         break;
                     case "1":
-                        System.Console.WriteLine("Place Order");
                         OrderModel order = orderService.GetCurrentOrder(customer.id, location.id);
                         orderService.PlaceOrder(order);
                         Log.Information($"Order Has been placed at {location.id}");
@@ -65,7 +67,7 @@ namespace TeaUI.Menus
                         System.Console.WriteLine("Go Back");
                         break;
                     default:
-                        System.Console.WriteLine("Please put enter valid input");
+                        System.Console.WriteLine("Please enter valid input");
                         break;
                 }
             }while(input!="2");

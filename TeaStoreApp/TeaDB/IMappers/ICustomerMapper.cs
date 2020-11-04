@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 namespace TeaDB.IMappers
 {
+    /// <summary>
+    /// Mapping between Customer Model and Entities
+    /// </summary>
     public interface ICustomerMapper
     {
         Customers ParseCustomer(CustomerModel customer);

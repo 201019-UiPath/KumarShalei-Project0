@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace TeaDB.IRepo
 {
+    /// <summary>
+    /// Business Logic concerning orders
+    /// </summary>
     public interface IOrderRepo
     {
         void NewOrder(OrderModel order);
@@ -14,8 +17,10 @@ namespace TeaDB.IRepo
         void PlaceOrder(OrderModel order);
         int GetOrderId(CustomerModel customerid, int locationId);
         OrderModel GetCurrentOrder(int customerid, int locationid);
+        List<OrderItemModel> GetOrderItems(int orderid);
         void ChangeOrderTotalPrice(int orderid, decimal amount);
         void DecreaseStock(int locationid, int productid, int stock);
+        List<OrderModel> GetOrderHistory(CustomerModel customer);
         List<OrderModel> GetOrderHistoryByMostExpensive(CustomerModel customer);
         List<OrderModel> GetOrderHistoryByLeastExpensive(CustomerModel customer);
         

@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using TeaDB.Models;
 using TeaLib;
 using System.Collections.Generic;
@@ -7,18 +6,18 @@ namespace TeaUI.Menus
 {
     public class LocationMenu
     {
+        /// <summary>
+        /// Allow customer to browse location inventory, add to basket and look at past
+        /// </summary>
         private string input;
         private LocationModel location;
         private CustomerModel customer;
         private List<InventoryModel> inventory;
-        
-        // private MainMenuService mainMenuService;
         private OrderService orderService;
         private LocationService locationService;
 
         
         public LocationMenu(int locationId, CustomerModel customer){
-            // this.mainMenuService = new MainMenuService();
             this.orderService = new OrderService();
             this.locationService = new LocationService();
 
@@ -40,20 +39,20 @@ namespace TeaUI.Menus
                 switch(input){
                     case "1":
                         System.Console.WriteLine("Available Products are:");
-                        System.Console.WriteLine("[ProductID]  [Product Name] [Stock]");
+                        System.Console.WriteLine("[ProductID]  [Product Name] [Price] [Stock]");
                         inventory = locationService.GetLocationInventory(location.id);
                         foreach(var i in inventory){
-                            System.Console.WriteLine($"{i.productId} {orderService.GetProduct(i.productId).name}   {i.stock}");
+                            System.Console.WriteLine($"{i.productId} {orderService.GetProduct(i.productId).name} {orderService.GetProduct(i.productId).price} {i.stock}");
 
                         }
                         break;
                     case "2":
-                        System.Console.WriteLine("Look at past Purchases");
+                        System.Console.WriteLine("Your past Purchases....");
                         System.Console.WriteLine("Would you like to sort by cost? [Y/N]");
                         sortByCost = System.Console.ReadLine();
                         List<OrderModel> pastPurchases;
                         if(sortByCost.ToLower() == "y"){
-                            System.Console.WriteLine("Would you like to sort: \n [1] Least to Most Expensive \n [2] Most to least Expensive \n Enter Number [1/2]:");
+                            System.Console.WriteLine("Would you like to sort: \n [1] Most to least Expensive \n [2] Least to Most Expensive \n Enter Number [1/2]:");
                             orderBy = System.Console.ReadLine();
                             if(orderBy == "1"){
                                 pastPurchases = orderService.GetOrderHistoryByMostExpensive(customer);
@@ -72,13 +71,13 @@ namespace TeaUI.Menus
                             foreach(var p in pastPurchases){
                                 List<OrderItemModel> items = orderService.GetOrderItems(p.id);
                                 foreach(var i in items){
-                                    System.Console.WriteLine($"{location.city} {orderService.GetProduct(i.productId).name} {i.amount}");
+                                    System.Console.WriteLine($"{location.city} {orderService.GetProduct(i.productId).name} {i.amount} {orderService.GetProduct(i.productId).price}");
                                 }
                             }
                          }
                         break;
                     case "3":
-                        System.Console.WriteLine("Adding to basket");
+                        System.Console.WriteLine("Adding to basket....");
                         orderid = orderService.GetOrderId(customer,location.id);
                         if(orderid == -1){
                             NewOrder();
@@ -87,7 +86,7 @@ namespace TeaUI.Menus
                         }                        
                         break;
                     case "4":
-                        System.Console.WriteLine("ViewingBasket");
+                        System.Console.WriteLine("Viewing Basket....");
                         orderid = orderService.GetOrderId(customer,location.id);
                         if(orderid == -1){
                             System.Console.WriteLine("Basket is empty");
@@ -97,7 +96,7 @@ namespace TeaUI.Menus
                         }
                         break;
                     case "5":
-                        System.Console.WriteLine("Switching Location");
+                        System.Console.WriteLine("Switching Location....");
                         break;
                     default:
                         System.Console.WriteLine("Please enter a valid input");

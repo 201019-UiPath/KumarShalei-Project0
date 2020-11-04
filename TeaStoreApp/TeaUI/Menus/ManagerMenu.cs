@@ -8,6 +8,9 @@ namespace TeaUI.Menus
 {
     public class ManagerMenu
     {
+        /// <summary>
+        /// Manager can replenish stock and look at order histories per location
+        /// </summary>
 
         private LocationService locationService;
         private ManagerService managerService;
@@ -23,12 +26,15 @@ namespace TeaUI.Menus
 
             System.Console.WriteLine("Welcome Back Ma'am");
             int input;
-            do{
-                System.Console.WriteLine("Which store Inventory would you like to view? [1|2|3] \n Press 0 to exit");
+            while(true){
+                System.Console.WriteLine("Which store Inventory would you like to view? [1/2/3] \n Press 0 to exit");
                 input = Convert.ToInt32(System.Console.ReadLine());
+                if(input == 0){
+                    break;
+                }
                 List<InventoryModel> invetory = locationService.GetLocationInventory(input);
                 foreach(var i in invetory){
-                    System.Console.WriteLine($"{i.productId} {orderService.GetProduct(i.productId).name} {i.stock}");
+                    System.Console.WriteLine($"{i.productId} {orderService.GetProduct(i.productId).name} {orderService.GetProduct(i.productId).price} {i.stock}");
                 }
                 System.Console.WriteLine("Would you like to restock? [Y/N]" );
                 string restock = System.Console.ReadLine();
@@ -56,18 +62,18 @@ namespace TeaUI.Menus
                     }
 
                     if(pastPurchases == null){
-                            System.Console.WriteLine("You have no past purchases");
+                            System.Console.WriteLine("There have been no purchases from this location");
                         } else {
                             foreach(var p in pastPurchases){
                                 List<OrderItemModel> items = orderService.GetOrderItems(p.id);
                                 foreach(var i in items){
-                                    System.Console.WriteLine($"{locationService.GetLocation(p.locationId).city } {orderService.GetProduct(i.productId).name} {i.amount}");
+                                    System.Console.WriteLine($"{locationService.GetLocation(p.locationId).city } {orderService.GetProduct(i.productId).name} {i.amount} {i.totalPrice}");
                                 }
                             }
                          }
 
                 }
-            } while(input != 0);
+            } 
 
         }
     }

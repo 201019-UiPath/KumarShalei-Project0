@@ -5,6 +5,9 @@ using Serilog;
 
 namespace TeaUI.Menus
 {
+    /// <summary>
+    /// Allow new and returning customers to login with an email
+    /// </summary>
 
     public class MainMenu
     {
@@ -22,8 +25,9 @@ namespace TeaUI.Menus
 
         public void Start(){
 
-
-            startMethod();
+            while(customer==null){
+                startMethod();
+            }
 
             if(customer.email == "Manager123@gmail.com"){
                 
@@ -31,6 +35,7 @@ namespace TeaUI.Menus
                 
                 managerMenu.Start();
             } else {
+                
                 System.Console.WriteLine($"Welcome {customer.firstName}!");
                 do{
                     Options();
@@ -86,6 +91,7 @@ namespace TeaUI.Menus
             };
 
             customerService.AddCustomer(customer);
+            customer = customerService.GetCustomerInfo(email);
             return customer;
         }
 
@@ -104,7 +110,7 @@ namespace TeaUI.Menus
                 }
             }while(true);
             
-
+            
             CustomerModel customer = customerService.GetCustomerInfo(email);
             return customer;
             
@@ -112,7 +118,7 @@ namespace TeaUI.Menus
 
 
         public void startMethod(){
-            System.Console.WriteLine("Welcome to *insert name ");
+            System.Console.WriteLine("Welcome to BesTea \n Your local Tea Store ");
             string oldCustomer = @"[YyNn]{1}";
             while(true){
                 try{
@@ -128,12 +134,10 @@ namespace TeaUI.Menus
            
             if(oldCustomer == "n"){
                 customer = NewCustomer();
-                Log.Information("New Customer has been Added");
+                Log.Information($"New Customer {customer.email} has been Added");
                            
-            } else {                      
-                        
+            } else {                        
                 customer = OldCustomer();    
-                        
             }
                 
                 

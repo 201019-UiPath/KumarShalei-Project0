@@ -1,10 +1,8 @@
 using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
 using TeaDB.Entities;
 using TeaDB.Models;
 using TeaDB.IMappers;
 using TeaDB.IRepo;
-using System.Threading.Tasks;
 using System.Linq;
 using System;
 
@@ -29,15 +27,21 @@ namespace TeaDB
         public void NewCustomerAsync(CustomerModel customer)
         {
             context.Customers.Add(mapper.ParseCustomer(customer));
-            context.SaveChangesAsync();
+            context.SaveChanges();
         }
 
         public CustomerModel GetCustomerInfo(string email)
         {
-            return mapper.ParseCustomer(
-                context.Customers
-                .First(c => c.Customeremail == email)
-            );
+            try{
+                return mapper.ParseCustomer(
+                    context.Customers
+                    .First(c => c.Customeremail == email)
+                );
+            }
+            catch(InvalidOperationException){
+                System.Console.WriteLine("No account with that email was found");
+            }
+            return null;
         }
 
         public List<OrderModel> GetOrderHistory(CustomerModel customer)

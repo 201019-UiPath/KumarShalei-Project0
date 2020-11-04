@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 namespace TeaDB.IMappers
 {
+    /// <summary>
+    /// Mapping between Inventory Model and Entities
+    /// </summary>
     public interface IInventoryMapper
     {
         Inventory ParseInventory(InventoryModel inventory);

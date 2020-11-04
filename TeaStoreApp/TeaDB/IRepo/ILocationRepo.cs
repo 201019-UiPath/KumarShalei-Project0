@@ -3,6 +3,9 @@ using TeaDB.Models;
 
 namespace TeaDB.IRepo
 {
+    /// <summary>
+    /// Business Logic Concerning Loccations
+    /// </summary>
     public interface ILocationRepo
     {
         LocationModel GetLocation(int id);

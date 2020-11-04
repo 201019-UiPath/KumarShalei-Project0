@@ -4,6 +4,10 @@ using System.Collections.Generic;
 
 namespace TeaDB.IMappers
 {
+    /// <summary>
+    /// Mapping between Order Model and Entities
+    /// </summary>
+
     public interface IOrderMapper
     {
         Orders ParseOrder(OrderModel order);

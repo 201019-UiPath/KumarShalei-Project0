@@ -3,3 +3,12 @@
 2020-11-03 16:40:21.060 -05:00 [INF] Order Has been placed at 2
 2020-11-03 16:52:19.145 -05:00 [INF] Order Has been placed at 3
 2020-11-03 19:30:59.530 -05:00 [INF] Order Has been placed at 1
+2020-11-03 21:58:29.038 -05:00 [INF] New Customer has been Added
+2020-11-03 22:02:19.800 -05:00 [INF] New Customer has been Added
+2020-11-03 22:06:22.189 -05:00 [INF] New Customer has been Added
+2020-11-03 22:16:07.290 -05:00 [INF] Order Has been placed at 1
+2020-11-03 22:16:13.262 -05:00 [INF] Order Has been placed at 1
+2020-11-03 22:16:43.458 -05:00 [INF] Order Has been placed at 3
+2020-11-03 22:23:27.731 -05:00 [INF] New Customer has been Added
+2020-11-03 22:24:08.763 -05:00 [INF] Order Has been placed at 1
+2020-11-03 22:25:09.983 -05:00 [INF] Order Has been placed at 2

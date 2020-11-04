@@ -25,8 +25,8 @@ namespace TeaLib
             repo.NewOrder(order);
         }
 
-        public OrderModel GetCurrentOrder(int customerId, int locationId){
-            return repo.GetCurrentOrder(customerId,locationId);
+        public void DeleteOrder(int orderid){
+            repo.DeleteOrder(orderid);
         }
 
         public void AddProductToOrderItem(int orderid, int productid, int amount, decimal price){
@@ -38,8 +38,8 @@ namespace TeaLib
             };
             repo.AddProductToOrderItem(order);
         }
+
         public void DeleteProductFromOrderItem(int orderid, int productid){
-            
             repo.DeleteProductFromOrderItem(orderid, productid);
         }
 
@@ -47,35 +47,32 @@ namespace TeaLib
             return repo.GetItemsInBasket(orderid);
         }
 
-        public void DeleteOrder(int orderid){
-            repo.DeleteOrder(orderid);
+        public ProductModel GetProduct(int productid){
+            return repo.GetProduct(productid);
         }
-
-        public int GetOrderId(CustomerModel customer, int locationId){
-
-            return repo.GetOrderId(customer,locationId);
-        }
-
 
         public void PlaceOrder(OrderModel order){
             repo.PlaceOrder(order);
         }
 
+        public int GetOrderId(CustomerModel customer, int locationId){
+            return repo.GetOrderId(customer,locationId);
+        }
 
-        public void DecreaseStock(int locationid, int productid, int stock){
-            repo.DecreaseStock(locationid, productid, stock);
+        public OrderModel GetCurrentOrder(int customerId, int locationId){
+            return repo.GetCurrentOrder(customerId,locationId);
+        }
+
+        public List<OrderItemModel> GetOrderItems(int orderid){
+            return repo.GetOrderItems(orderid);
         }
 
         public void ChangeOrderTotalPrice(int orderid, decimal amount){
             repo.ChangeOrderTotalPrice(orderid,amount);
         }
-        public ProductModel GetProduct(int productid){
-            return repo.GetProduct(productid);
-        }
 
-
-        public List<OrderItemModel> GetOrderItems(int orderid){
-            return repo.GetOrderItems(orderid);
+        public void DecreaseStock(int locationid, int productid, int stock){
+            repo.DecreaseStock(locationid, productid, stock);
         }
         
         public List<OrderModel> GetOrderHistory(CustomerModel customer){

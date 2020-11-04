@@ -3,6 +3,9 @@ using TeaDB.Models;
 using System.Collections.Generic;
 namespace TeaDB.IMappers
 {
+    /// <summary>
+    /// Mapping between Product Model and Entities
+    /// </summary>
     public interface IProductMapper
     {
         Products ParseProduct(ProductModel product);
