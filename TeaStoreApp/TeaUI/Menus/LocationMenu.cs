@@ -69,6 +69,7 @@ namespace TeaUI.Menus
                             System.Console.WriteLine("You have no past purchases");
                         } else {
                             foreach(var p in pastPurchases){
+                                System.Console.WriteLine($"OrderID: {p.id}");
                                 List<OrderItemModel> items = orderService.GetOrderItems(p.id);
                                 foreach(var i in items){
                                     System.Console.WriteLine($"{location.city} {orderService.GetProduct(i.productId).name} {i.amount} {orderService.GetProduct(i.productId).price}");

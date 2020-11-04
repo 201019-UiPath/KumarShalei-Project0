@@ -48,7 +48,7 @@ namespace TeaUI.Menus
                 Console.WriteLine("Your Basket");
                 System.Console.WriteLine("[ID] [Product Name] [Price] [Amount]");
                 foreach(var p in products){
-                    System.Console.WriteLine($"{p.productId} {orderService.GetProduct(p.productId).name} {orderService.GetProduct(p.productId).name} {p.amount}");
+                    System.Console.WriteLine($"{p.productId} {orderService.GetProduct(p.productId).name} {orderService.GetProduct(p.productId).price} {p.amount}");
                 }
 
                 Options();
@@ -61,6 +61,7 @@ namespace TeaUI.Menus
                     case "1":
                         OrderModel order = orderService.GetCurrentOrder(customer.id, location.id);
                         orderService.PlaceOrder(order);
+                        System.Console.WriteLine("Your Order has been placed!");
                         Log.Information($"Order Has been placed at {location.id}");
                         break;
                     case "2":

@@ -54,7 +54,7 @@ namespace TeaUI.Menus
                             locationMenu3.Start();
                             break;
                         case 3:
-                            System.Console.WriteLine("GoodBye!");
+                            System.Console.WriteLine("GoodBye! Hope to see you again!");
                             break;
                         default:
                             System.Console.WriteLine("Please enter valid input");
